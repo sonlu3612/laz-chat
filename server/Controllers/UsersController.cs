@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-using AuthJwtApi.Data;
-using AuthJwtApi.Models;
+using server.Models;
+using server.Services;
 
 namespace server.Controllers
 {
@@ -10,65 +8,41 @@ namespace server.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        // Inject service
-        private readonly ApplicationDbContext _context;
-        private readonly IConfiguration _configuration; // read JWT settings
+        private readonly IAuthService _authService; // Sửa lỗi chính tả: _authServive -> _authService
 
-        public UsersController(ApplicationDbContext context, IConfiguration configuration)
+        public UsersController(IAuthService authService)
         {
-            _context = context;
-            _configuration = configuration;
-        }
-
-        public class RegisterRequest // Data Transfer Object
-        {
-            [Required(ErrorMessage = "Username is required!")]
-            [StringLength(20, ErrorMessage = "Username must not exceed 20 characters!")]
-            public string Username { get; set; } = string.Empty;
-
-            [Required(ErrorMessage = "Email is required!")]
-            [EmailAddress(ErrorMessage = "Invalid email format!")]
-            public string Email { get; set; } = string.Empty;
-
-            [Required(ErrorMessage = "Password is required.")]
-            [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
-            public string Password { get; set; } = string.Empty;
-
-            [Required(ErrorMessage = "Confirm Password is required.")]
-            [Compare("Password", ErrorMessage = "Passwords do not match.")]
-            public string ConfirmPassword { get; set; } = string.Empty;
+            _authService = authService;
         }
 
         // POST: api/users/register
-        [HttpPost]
-        public async Task<IActionResult> Register(User user)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserDTO userDTO)
         {
-            if (await _context.Users.AnyAsync(u => u.Username == user.Username))
+            try
             {
-                return BadRequest("Username already exists.");
+                var user = await _authService.Register(userDTO);
+                return Ok(new { message = "User registered successfully" });
             }
-
-            if (await _context.Users.AnyAsync(u => u.Email == user.Email))
+            catch (Exception ex)
             {
-                return BadRequest("Email already exists.");
+                return BadRequest(new { error = ex.Message }); // Cải thiện định dạng phản hồi lỗi
             }
-
-            user.Password = user.Password;
-
-            _context.Users.Add(user);
-
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "Success" });
         }
 
         // POST: api/users/login
-        [HttpPost]
-        public async Task<IActionResult> Login(User user)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
-            
+            try
+            {
+                var token = await _authService.Login(loginDTO);
+                return Ok(new { message = "User login successfully", token });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message }); // Cải thiện định dạng phản hồi lỗi
+            }
         }
-
     }
-
 }

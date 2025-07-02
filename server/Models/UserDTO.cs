@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AuthJwtApi.Models
+namespace server.Models
 {
     public class UserDTO // Data Transfer Object
     {

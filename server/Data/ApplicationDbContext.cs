@@ -1,7 +1,7 @@
-using AuthJwtApi.Models;
+using server.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthJwtApi.Data
+namespace server.Data
 {
     public class ApplicationDbContext : DbContext
     {
