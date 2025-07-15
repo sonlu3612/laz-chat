@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
 using server.Services;
+using System.Threading.Tasks;
 
 namespace server.Controllers
 {
@@ -8,40 +9,67 @@ namespace server.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IAuthService _authService; // Sửa lỗi chính tả: _authServive -> _authService
+        private readonly IAuthService _authService;
 
         public UsersController(IAuthService authService)
         {
             _authService = authService;
         }
 
-        // POST: api/users/register
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserDTO userDTO)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
-                var user = await _authService.Register(userDTO);
-                return Ok(new { message = "User registered successfully" });
+                var response = await _authService.RegisterAsync(request);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error = ex.Message }); // Cải thiện định dạng phản hồi lỗi
+                return BadRequest(ex.Message);
             }
         }
 
-        // POST: api/users/login
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
-                var token = await _authService.Login(loginDTO);
-                return Ok(new { message = "User login successfully", token });
+                var response = await _authService.LoginAsync(request);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error = ex.Message }); // Cải thiện định dạng phản hồi lỗi
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("google-login")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var response = await _authService.GoogleLoginAsync(request);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

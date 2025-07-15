@@ -140,3 +140,15 @@ D:\Programing\.NET\Web\chat-app\server\obj\Debug\net9.0\refint\server.dll
 D:\Programing\.NET\Web\chat-app\server\obj\Debug\net9.0\server.pdb
 D:\Programing\.NET\Web\chat-app\server\obj\Debug\net9.0\server.genruntimeconfig.cache
 D:\Programing\.NET\Web\chat-app\server\obj\Debug\net9.0\ref\server.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\Newtonsoft.Json.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\System.Net.WebSockets.WebSocketProtocol.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\Google.Apis.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\Google.Apis.Auth.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\Google.Apis.Core.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\System.Management.dll
+D:\Programing\.NET\Web\chat-app\server\bin\Debug\net9.0\runtimes\win\lib\net7.0\System.Management.dll
