@@ -15,6 +15,12 @@ const Register = (props) => {
           <h2>Create an account</h2>
           <form>
             <div className="input-group">
+              <label htmlFor="email">
+                Email <span style={{ color: "red" }}>*</span>
+              </label>
+              <input type="email" id="email" placeholder="Email" />
+            </div>
+            <div className="input-group">
               <label htmlFor="username">
                 Username <span style={{ color: "red" }}>*</span>
               </label>
