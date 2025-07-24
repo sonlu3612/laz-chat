@@ -2,11 +2,9 @@ import React, { use } from "react";
 import { useEffect } from "react";
 
 const Register = (props) => {
-  
   useEffect(() => {
     console.log("Register component mounted");
   });
-
 
   return (
     <>
@@ -20,6 +18,7 @@ const Register = (props) => {
               </label>
               <input type="email" id="email" placeholder="Email" />
             </div>
+
             <div className="input-group">
               <label htmlFor="username">
                 Username <span style={{ color: "red" }}>*</span>
