@@ -1,10 +1,131 @@
 import React, { use } from "react";
 import { useEffect } from "react";
+import { useState, useRef } from "react";
+import { isEmail, matches } from "validator";
 
 const Register = (props) => {
   useEffect(() => {
     console.log("Register component mounted");
   });
+
+  const emailInputRef = useRef(null);
+  const usernameInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+  const confirmPasswordInputRef = useRef(null);
+
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { name } = e.target;
+
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: "",
+      });
+    }
+  };
+
+  const isEmailValid = (newErrors, email) => {
+    if (!email.trim()) {
+      newErrors.email = "Email is required.";
+      return false;
+    } else if (!isEmail(email)) {
+      newErrors.email = "Email is not valid";
+      return false;
+    }
+    return true;
+  };
+
+  const isUserNameValid = (newErrors, username) => {
+    if (!username.trim()) {
+      newErrors.username = "Username is required.";
+      return false;
+    } else if (!matches(username, /^[a-zA-Z0-9]+$/)) {
+      newErrors.username = "Username can only contain letters and numbers.";
+      return false;
+    }
+    return true;
+  };
+
+  const isPasswordValid = (newErrors, password) => {
+    if (!password) {
+      newErrors.password = "Password is required.";
+      return false;
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long.";
+      return false;
+    } else if (password.length > 20) {
+      newErrors.password = "Password cannot exceed 20 characters.";
+      return false;
+    } else if (!matches(password, /^[a-zA-Z0-9]+$/)) {
+      newErrors.password = "Password can only contain letters and numbers.";
+      return false;
+    }
+    return true;
+  };
+
+  const isConfirmPasswordValid = (
+    newErrors,
+    isPasswordValid,
+    password,
+    confirmPassword
+  ) => {
+    if (isPasswordValid) {
+      if (!confirmPassword) {
+        newErrors.confirmPassword = "Confirm Password is required.";
+        return false;
+      } else if (
+        confirmPassword.length < 6 ||
+        confirmPassword.length > 20 ||
+        password !== confirmPassword
+      ) {
+        newErrors.confirmPassword = "Confirm Password must match the Password";
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const validateForm = () => {
+    let newErrors = {};
+
+    const username = usernameInputRef.current.value;
+    const email = emailInputRef.current.value;
+    const password = passwordInputRef.current.value;
+    const confirmPassword = confirmPasswordInputRef.current.value;
+
+    const isEmailOK = isEmailValid(newErrors, email);
+    const isUsernameOK = isUserNameValid(newErrors, username);
+    const isPasswordOK = isPasswordValid(newErrors, password);
+    const isConfirmPasswordOK = isConfirmPasswordValid(
+      newErrors,
+      isPasswordOK,
+      password,
+      confirmPassword
+    );
+
+    if (!isPasswordOK || !isConfirmPasswordOK) {
+      passwordInputRef.current.value = "";
+      confirmPasswordInputRef.current.value = "";
+    }
+
+    setErrors(newErrors);
+    return isEmailOK && isUsernameOK && isPasswordOK && isConfirmPasswordOK;
+  };
+
+  const handleSubmitAsync = async (e) => {
+    e.preventDefault();
+
+    const isValid = validateForm();
+
+    if (!isValid) {
+
+      return;
+    }
+    alert("Form is ok!");
+  };
 
   return (
     <>
@@ -16,21 +137,49 @@ const Register = (props) => {
               <label htmlFor="email">
                 Email <span style={{ color: "red" }}>*</span>
               </label>
-              <input type="email" id="email" placeholder="Email" />
+              <input
+                onChange={handleChange}
+                name="email"
+                type="email"
+                id="email"
+                placeholder="Email"
+                ref={emailInputRef}
+              />
+              {errors.email && <p className="error-message">{errors.email}</p>}
             </div>
 
             <div className="input-group">
               <label htmlFor="username">
                 Username <span style={{ color: "red" }}>*</span>
               </label>
-              <input type="text" id="username" placeholder="Username" />
+              <input
+                onChange={handleChange}
+                name="username"
+                type="text"
+                id="username"
+                placeholder="Username"
+                ref={usernameInputRef}
+              />
+              {errors.username && (
+                <p className="error-message">{errors.username}</p>
+              )}
             </div>
 
             <div className="input-group">
               <label htmlFor="password">
                 Password <span style={{ color: "red" }}>*</span>
               </label>
-              <input type="password" id="password" placeholder="Password" />
+              <input
+                onChange={handleChange}
+                name="password"
+                type="password"
+                id="password"
+                placeholder="Password"
+                ref={passwordInputRef}
+              />
+              {errors.password && (
+                <p className="error-message">{errors.password}</p>
+              )}
             </div>
 
             <div className="input-group">
@@ -38,10 +187,16 @@ const Register = (props) => {
                 Confirm Password <span style={{ color: "red" }}>*</span>
               </label>
               <input
+                onChange={handleChange}
+                name="confirmPassword"
                 type="password"
                 id="confirm-password"
                 placeholder="Confirm Password"
+                ref={confirmPasswordInputRef}
               />
+              {errors.confirmPassword && (
+                <p className="error-message">{errors.confirmPassword}</p>
+              )}
             </div>
 
             <p className="terms-text">
@@ -50,7 +205,11 @@ const Register = (props) => {
               <a href="#">Privacy Policy</a>
             </p>
 
-            <button type="submit" className="create-account-btn">
+            <button
+              type="submit"
+              onClick={handleSubmitAsync}
+              className="create-account-btn"
+            >
               Create Account
             </button>
           </form>
@@ -154,6 +313,11 @@ body{
   font-size: 14px;
   text-decoration: none;
   font-weight: bold;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
 }
         `}
       </style>
