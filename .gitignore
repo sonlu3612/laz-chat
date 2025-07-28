@@ -1,0 +1,16 @@
+# Ignore global stuff
+.vs/
+*.suo
+*.user
+*.db
+*.log
+*.tmp
+
+# Ignore for server
+/server/bin/
+/server/obj/
+/server/*.db
+
+# Ignore for client
+/client/node_modules/
+/client/dist/
