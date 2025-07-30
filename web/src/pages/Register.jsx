@@ -232,7 +232,6 @@ body{
   align-items: center;
   min-height: 100vh;
   color: #1c1e21;
-  font-family: Arial, sans-serif;
 }
 
 .signup-container {
