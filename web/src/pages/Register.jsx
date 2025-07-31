@@ -8,110 +8,83 @@ const Register = (props) => {
     console.log("Register component mounted");
   });
 
-  const emailInputRef = useRef(null);
-  const usernameInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
-  const confirmPasswordInputRef = useRef(null);
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [errors, setErrors] = useState({});
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
+    useState("");
 
-  const handleChange = (e) => {
-    const { name } = e.target;
-
-    if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: "",
-      });
-    }
-  };
-
-  const isEmailValid = (newErrors, email) => {
+  const isEmailValid = () => {
     if (!email.trim()) {
-      newErrors.email = "Email is required.";
+      setEmailErrorMessage("Email is required.");
       return false;
     } else if (!isEmail(email)) {
-      newErrors.email = "Email is not valid";
+      setEmailErrorMessage("Email is not valid");
       return false;
     }
     return true;
   };
 
-  const isUserNameValid = (newErrors, username) => {
+  const isUserNameValid = () => {
     if (!username.trim()) {
-      newErrors.username = "Username is required.";
+      setUsernameErrorMessage("Username is required.");
       return false;
     } else if (!matches(username, /^[a-zA-Z0-9]+$/)) {
-      newErrors.username = "Username can only contain letters and numbers.";
+      setUsernameErrorMessage("Username can only contain letters and numbers.");
       return false;
     }
     return true;
   };
 
-  const isPasswordValid = (newErrors, password) => {
-    if (!password) {
-      newErrors.password = "Password is required.";
+  const isPasswordValid = () => {
+    if (!password.trim()) {
+      setPasswordErrorMessage("Password is required.");
       return false;
     } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long.";
+      setPasswordErrorMessage("Password must be at least 6 characters long.");
       return false;
     } else if (password.length > 20) {
-      newErrors.password = "Password cannot exceed 20 characters.";
+      setPasswordErrorMessage("Password cannot exceed 20 characters.");
       return false;
     } else if (!matches(password, /^[a-zA-Z0-9]+$/)) {
-      newErrors.password = "Password can only contain letters and numbers.";
+      setPasswordErrorMessage("Password can only contain letters and numbers.");
       return false;
     }
     return true;
   };
 
-  const isConfirmPasswordValid = (
-    newErrors,
-    isPasswordValid,
-    password,
-    confirmPassword
-  ) => {
-    if (isPasswordValid) {
-      if (!confirmPassword) {
-        newErrors.confirmPassword = "Confirm Password is required.";
-        return false;
-      } else if (
-        confirmPassword.length < 6 ||
-        confirmPassword.length > 20 ||
-        password !== confirmPassword
-      ) {
-        newErrors.confirmPassword = "Confirm Password must match the Password";
-        return false;
-      }
+  const isConfirmPasswordValid = () => {
+    if (!confirmPassword.trim()) {
+      setConfirmPasswordErrorMessage("Confirm Password is required.");
+      return false;
+    } else if (
+      confirmPassword.length < 6 ||
+      confirmPassword.length > 20 ||
+      password !== confirmPassword
+    ) {
+      setConfirmPasswordErrorMessage("Confirm Password must match the Password");
+      return false;
     }
 
     return true;
   };
 
   const validateForm = () => {
-    let newErrors = {};
-
-    const username = usernameInputRef.current.value;
-    const email = emailInputRef.current.value;
-    const password = passwordInputRef.current.value;
-    const confirmPassword = confirmPasswordInputRef.current.value;
-
-    const isEmailOK = isEmailValid(newErrors, email);
-    const isUsernameOK = isUserNameValid(newErrors, username);
-    const isPasswordOK = isPasswordValid(newErrors, password);
-    const isConfirmPasswordOK = isConfirmPasswordValid(
-      newErrors,
-      isPasswordOK,
-      password,
-      confirmPassword
-    );
+    const isEmailOK = isEmailValid();
+    const isUsernameOK = isUserNameValid();
+    const isPasswordOK = isPasswordValid();
+    const isConfirmPasswordOK = isPasswordOK ? isConfirmPasswordValid() : true;
 
     if (!isPasswordOK || !isConfirmPasswordOK) {
-      passwordInputRef.current.value = "";
-      confirmPasswordInputRef.current.value = "";
+      setPassword("");
+      setConfirmPassword("");
     }
 
-    setErrors(newErrors);
     return isEmailOK && isUsernameOK && isPasswordOK && isConfirmPasswordOK;
   };
 
@@ -121,7 +94,6 @@ const Register = (props) => {
     const isValid = validateForm();
 
     if (!isValid) {
-
       return;
     }
     alert("Form is ok!");
@@ -138,14 +110,19 @@ const Register = (props) => {
                 Email <span style={{ color: "red" }}>*</span>
               </label>
               <input
-                onChange={handleChange}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  setEmailErrorMessage("");
+                }}
                 name="email"
                 type="email"
                 id="email"
                 placeholder="Email"
-                ref={emailInputRef}
+                value={email}
               />
-              {errors.email && <p className="error-message">{errors.email}</p>}
+              {emailErrorMessage && (
+                <p className="error-message">{emailErrorMessage}</p>
+              )}
             </div>
 
             <div className="input-group">
@@ -153,15 +130,18 @@ const Register = (props) => {
                 Username <span style={{ color: "red" }}>*</span>
               </label>
               <input
-                onChange={handleChange}
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                  setUsernameErrorMessage("");
+                }}
                 name="username"
                 type="text"
                 id="username"
                 placeholder="Username"
-                ref={usernameInputRef}
+                value={username}
               />
-              {errors.username && (
-                <p className="error-message">{errors.username}</p>
+              {usernameErrorMessage && (
+                <p className="error-message">{usernameErrorMessage}</p>
               )}
             </div>
 
@@ -170,15 +150,18 @@ const Register = (props) => {
                 Password <span style={{ color: "red" }}>*</span>
               </label>
               <input
-                onChange={handleChange}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                  setPasswordErrorMessage("");
+                }}
                 name="password"
                 type="password"
                 id="password"
                 placeholder="Password"
-                ref={passwordInputRef}
+                value={password}
               />
-              {errors.password && (
-                <p className="error-message">{errors.password}</p>
+              {passwordErrorMessage && (
+                <p className="error-message">{passwordErrorMessage}</p>
               )}
             </div>
 
@@ -187,15 +170,18 @@ const Register = (props) => {
                 Confirm Password <span style={{ color: "red" }}>*</span>
               </label>
               <input
-                onChange={handleChange}
+                onChange={(event) => {
+                  setConfirmPassword(event.target.value);
+                  setConfirmPasswordErrorMessage("");
+                }}
                 name="confirmPassword"
                 type="password"
                 id="confirm-password"
                 placeholder="Confirm Password"
-                ref={confirmPasswordInputRef}
+                value={confirmPassword}
               />
-              {errors.confirmPassword && (
-                <p className="error-message">{errors.confirmPassword}</p>
+              {confirmPasswordErrorMessage && (
+                <p className="error-message">{confirmPasswordErrorMessage}</p>
               )}
             </div>
 
