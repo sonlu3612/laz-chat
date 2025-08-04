@@ -2,6 +2,7 @@ import React, { use } from "react";
 import { useEffect } from "react";
 import { useState, useRef } from "react";
 import { isEmail, matches } from "validator";
+import InputGroup from "../Components/InputGroup";
 
 const Register = (props) => {
   useEffect(() => {
@@ -67,7 +68,9 @@ const Register = (props) => {
       confirmPassword.length > 20 ||
       password !== confirmPassword
     ) {
-      setConfirmPasswordErrorMessage("Confirm Password must match the Password");
+      setConfirmPasswordErrorMessage(
+        "Confirm Password must match the Password"
+      );
       return false;
     }
 
@@ -101,211 +104,85 @@ const Register = (props) => {
 
   return (
     <>
-      <div className="page-container">
-        <div className="signup-container">
-          <h2>Create an account</h2>
+      <div className="w-screen h-screen flex bg-white">
+        <div className="shadow border-1 rounded-2xl py-8 mx-auto my-auto w-md">
           <form>
-            <div className="input-group">
-              <label htmlFor="email">
-                Email <span style={{ color: "red" }}>*</span>
-              </label>
-              <input
-                onChange={(event) => {
-                  setEmail(event.target.value);
-                  setEmailErrorMessage("");
-                }}
-                name="email"
-                type="email"
-                id="email"
-                placeholder="Email"
-                value={email}
-              />
-              {emailErrorMessage && (
-                <p className="error-message">{emailErrorMessage}</p>
-              )}
-            </div>
+            <h2 className="text-center text-2xl mb-4">Create an account</h2>
+            <InputGroup
+              title="Email"
+              placeholder="Email"
+              type="email"
+              isRequired={true}
+              errorMessage={emailErrorMessage}
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                setEmailErrorMessage("");
+              }}
+            />
 
-            <div className="input-group">
-              <label htmlFor="username">
-                Username <span style={{ color: "red" }}>*</span>
-              </label>
-              <input
-                onChange={(event) => {
-                  setUsername(event.target.value);
-                  setUsernameErrorMessage("");
-                }}
-                name="username"
-                type="text"
-                id="username"
-                placeholder="Username"
-                value={username}
-              />
-              {usernameErrorMessage && (
-                <p className="error-message">{usernameErrorMessage}</p>
-              )}
-            </div>
+            <InputGroup
+              title="Username"
+              placeholder="Username"
+              type="text"
+              isRequired={true}
+              errorMessage={usernameErrorMessage}
+              value={username}
+              onChange={(event) => {
+                setUsername(event.target.value);
+                setUsernameErrorMessage("");
+              }}
+            />
 
-            <div className="input-group">
-              <label htmlFor="password">
-                Password <span style={{ color: "red" }}>*</span>
-              </label>
-              <input
-                onChange={(event) => {
-                  setPassword(event.target.value);
-                  setPasswordErrorMessage("");
-                }}
-                name="password"
-                type="password"
-                id="password"
-                placeholder="Password"
-                value={password}
-              />
-              {passwordErrorMessage && (
-                <p className="error-message">{passwordErrorMessage}</p>
-              )}
-            </div>
+            <InputGroup
+              title="Password"
+              placeholder="Password"
+              type="password"
+              isRequired={true}
+              errorMessage={passwordErrorMessage}
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+                setPasswordErrorMessage("");
+              }}
+            />
 
-            <div className="input-group">
-              <label htmlFor="confirm-password">
-                Confirm Password <span style={{ color: "red" }}>*</span>
-              </label>
-              <input
-                onChange={(event) => {
-                  setConfirmPassword(event.target.value);
-                  setConfirmPasswordErrorMessage("");
-                }}
-                name="confirmPassword"
-                type="password"
-                id="confirm-password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-              />
-              {confirmPasswordErrorMessage && (
-                <p className="error-message">{confirmPasswordErrorMessage}</p>
-              )}
-            </div>
+            <InputGroup
+              title="Confirm Password"
+              placeholder="Confirm Password"
+              type="password"
+              isRequired={true}
+              errorMessage={confirmPasswordErrorMessage}
+              value={confirmPassword}
+              onChange={(event) => {
+                setConfirmPassword(event.target.value);
+                setConfirmPasswordErrorMessage("");
+              }}
+            />
 
-            <p className="terms-text">
+            <p className="px-4 py-2">
               By creating an account, you agree to the{" "}
-              <a href="#">Terms of Service</a> and have read the{" "}
-              <a href="#">Privacy Policy</a>
+              <a href="#" className="text-blue-600">Terms of Service</a> and have read the{" "}
+              <a href="#" className="text-blue-600">Privacy Policy</a>
             </p>
 
+            <div className="w-full flex py-2">
             <button
               type="submit"
               onClick={handleSubmitAsync}
-              className="create-account-btn"
+              className="rounded-2xl text-center m-auto px-6 py-2 cursor-pointer bg-blue-200 hover:bg-blue-400"
+              style={{transition: "background 100ms linear"}}
             >
               Create Account
             </button>
+            </div>
+            
+            <p className="px-4 pt-2 text-center">
+              Already have an account? <a className="text-blue-600" href="/login">Log in</a>
+            </p>
           </form>
-
-          <p className="login-prompt">
-            Already have an account? <a href="/login">Log in</a>
-          </p>
         </div>
       </div>
-      <style>
-        {`
-
-body{
-  background-color: #F2F4F7;
-}
-
-.page-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  color: #1c1e21;
-}
-
-.signup-container {
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 16px;
-  width: 400px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.signup-container h2 {
-  text-align: center;
-  font-size: 24px;
-  font-weight: 600;
-  margin: 0 0 15px 0;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.input-group label {
-  margin-bottom: 8px;
-  margin-top: 8px;
-  font-size: 14px;
-  color: #1c1e21;
-}
-
-.input-group input {
-  background-color: rgba(0,0,0,0);
-  border: 1px solid rgb(204, 208, 213);
-  border-radius: 8px;
-  padding: 12px;
-  color: rgb(28, 30, 33);
-  font-size: 16px;
-}
-
-.input-group input::placeholder {
-  color: #888888;
-}
-
-.terms-text {
-  font-size: 12px;
-  color: #777;
-  margin: 10px 0;
-}
-
-.terms-text a {
-  font-size: 12px;
-  color: #4a90e2;
-}
-
-.create-account-btn {
-  width: 100%;
-  padding: 12px;
-  background-color: #4a90e2;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.login-prompt {
-  text-align: center;
-  font-size: 14px;
-  color: #777777;
-}
-
-.login-prompt a {
-  color: #4a90e2;
-  font-size: 14px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.error-message {
-  color: red;
-  font-size: 14px;
-}
-        `}
-      </style>
     </>
   );
 };
