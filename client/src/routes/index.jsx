@@ -1,7 +1,9 @@
+import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "../pages/Loginpage";
-import Home from "../pages/Home";
-import Register from "../pages/Register";
+
+const Home = React.lazy(() => import("../pages/Home"));
+const Login = React.lazy(() => import("../pages/Loginpage"));
+const Register = React.lazy(() => import("../pages/Register"));
 
 export default function AppRoutes() {
   return (
