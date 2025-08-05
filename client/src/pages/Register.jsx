@@ -162,23 +162,31 @@ const Register = (props) => {
 
             <p className="px-4 py-2">
               By creating an account, you agree to the{" "}
-              <a href="#" className="text-blue-600">Terms of Service</a> and have read the{" "}
-              <a href="#" className="text-blue-600">Privacy Policy</a>
+              <a href="#" className="text-blue-600">
+                Terms of Service
+              </a>{" "}
+              and have read the{" "}
+              <a href="#" className="text-blue-600">
+                Privacy Policy
+              </a>
             </p>
 
             <div className="w-full flex py-2">
-            <button
-              type="submit"
-              onClick={handleSubmitAsync}
-              className="rounded-2xl text-center m-auto px-6 py-2 cursor-pointer bg-blue-200 hover:bg-blue-400"
-              style={{transition: "background 100ms linear"}}
-            >
-              Create Account
-            </button>
+              <button
+                type="submit"
+                onClick={handleSubmitAsync}
+                className="rounded-2xl text-center m-auto px-6 py-2 cursor-pointer bg-blue-200 hover:bg-blue-400"
+                style={{ transition: "background 100ms linear" }}
+              >
+                Create Account
+              </button>
             </div>
-            
+
             <p className="px-4 pt-2 text-center">
-              Already have an account? <a className="text-blue-600" href="/login">Log in</a>
+              Already have an account?{" "}
+              <a className="text-blue-600" href="/login">
+                Log in
+              </a>
             </p>
           </form>
         </div>
