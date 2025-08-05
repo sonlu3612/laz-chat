@@ -15,6 +15,11 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [postMessage, setPostMessage] = useState({
+    isSuccess: false,
+    text: "",
+  });
+
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
@@ -160,6 +165,15 @@ const Register = (props) => {
           <form>
             <h2 className="text-center text-2xl mb-4">Create an account</h2>
 
+            {postMessage.text !== "" &&
+              (postMessage.isSuccess === true ? (
+                <p class="text-green-500 text-center mb-4">
+                  {postMessage.text}
+                </p>
+              ) : (
+                <p class="text-red-500 text-center mb-4">{postMessage.text}</p>
+              ))}
+
             <div className="grid grid-cols-2">
               <InputGroup
                 title="First name"
@@ -171,6 +185,7 @@ const Register = (props) => {
                 onChange={(event) => {
                   setFirstName(event.target.value);
                   setFirstNameErrorMessage("");
+                  setPostMessage({ text: "" });
                 }}
               />
 
@@ -184,6 +199,7 @@ const Register = (props) => {
                 onChange={(event) => {
                   setLastName(event.target.value);
                   setLastNameErrorMessage("");
+                  setPostMessage({ text: "" });
                 }}
               />
             </div>
@@ -198,6 +214,7 @@ const Register = (props) => {
               onChange={(event) => {
                 setEmail(event.target.value);
                 setEmailErrorMessage("");
+                setPostMessage({ text: "" });
               }}
             />
 
@@ -211,6 +228,7 @@ const Register = (props) => {
               onChange={(event) => {
                 setPhone(event.target.value);
                 setPhoneErrorMessage("");
+                setPostMessage({ text: "" });
               }}
             />
 
@@ -224,6 +242,7 @@ const Register = (props) => {
               onChange={(event) => {
                 setPassword(event.target.value);
                 setPasswordErrorMessage("");
+                setPostMessage({ text: "" });
               }}
             />
 
@@ -237,6 +256,7 @@ const Register = (props) => {
               onChange={(event) => {
                 setConfirmPassword(event.target.value);
                 setConfirmPasswordErrorMessage("");
+                setPostMessage({ text: "" });
               }}
             />
 
