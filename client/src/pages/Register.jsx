@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { replace, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { isEmail, matches } from "validator";
 import InputGroup from "../Components/InputGroup";
@@ -10,6 +11,8 @@ const Register = (props) => {
   useEffect(() => {
     console.log("Register component mounted");
   });
+
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -177,8 +180,9 @@ const Register = (props) => {
           if (response.status === 200) {
             setPostMessage({
               isSuccess: true,
-              text: "Registration Success!",
+              text: "Registration Success! Navigate to home page...",
             });
+            navigate("/login", replace(true));
           } else {
             setPostMessage({
               isSuccess: false,
