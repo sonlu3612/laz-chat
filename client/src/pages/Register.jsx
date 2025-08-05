@@ -9,16 +9,55 @@ const Register = (props) => {
     console.log("Register component mounted");
   });
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
     useState("");
+
+  const firstNameRegex = /^[A-Za-z]+(?:[-\s][A-Za-z]+)*$/;
+  const lastNameRegex = /^[A-Za-z]+(?:[-\s][A-Za-z]+)*$/;
+
+  const isFirstNameValid = () => {
+    if (!firstName.trim()) {
+      setFirstNameErrorMessage("First name is required.");
+      return false;
+    } else if (firstName.length > 20) {
+      setFirstNameErrorMessage("First name cannot exceed 20 characters.");
+      return false;
+    } else if (!matches(firstName, firstNameRegex)) {
+      setFirstNameErrorMessage(
+        "First name can only contain letters and cannot start or end with a space or a hyphen."
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const isLastNameValid = () => {
+    if (!lastName.trim()) {
+      setLastNameErrorMessage("Last name is required.");
+      return false;
+    } else if (lastName.length > 20) {
+      setLastNameErrorMessage("Last name cannot exceed 20 characters.");
+      return false;
+    } else if (!matches(lastName, lastNameRegex)) {
+      setLastNameErrorMessage(
+        "Last name can only contain letters cannot start or end with a space or a hyphen."
+      );
+      return false;
+    }
+    return true;
+  };
 
   const isEmailValid = () => {
     if (!email.trim()) {
@@ -78,6 +117,8 @@ const Register = (props) => {
   };
 
   const validateForm = () => {
+    const isFirstNameOK = isFirstNameValid();
+    const isLastNameOK = isLastNameValid();
     const isEmailOK = isEmailValid();
     const isUsernameOK = isUserNameValid();
     const isPasswordOK = isPasswordValid();
@@ -88,7 +129,14 @@ const Register = (props) => {
       setConfirmPassword("");
     }
 
-    return isEmailOK && isUsernameOK && isPasswordOK && isConfirmPasswordOK;
+    return (
+      isFirstNameOK &&
+      isLastNameOK &&
+      isEmailOK &&
+      isUsernameOK &&
+      isPasswordOK &&
+      isConfirmPasswordOK
+    );
   };
 
   const handleSubmitAsync = async (e) => {
@@ -108,6 +156,35 @@ const Register = (props) => {
         <div className="shadow border-1 rounded-2xl py-8 mx-auto my-auto w-md">
           <form>
             <h2 className="text-center text-2xl mb-4">Create an account</h2>
+
+            <div className="grid grid-cols-2">
+              <InputGroup
+                title="First name"
+                placeholder="First name"
+                type="text"
+                isRequired={true}
+                errorMessage={firstNameErrorMessage}
+                value={firstName}
+                onChange={(event) => {
+                  setFirstName(event.target.value);
+                  setFirstNameErrorMessage("");
+                }}
+              />
+
+              <InputGroup
+                title="Last name"
+                placeholder="Last name"
+                type="text"
+                isRequired={true}
+                errorMessage={lastNameErrorMessage}
+                value={lastName}
+                onChange={(event) => {
+                  setLastName(event.target.value);
+                  setLastNameErrorMessage("");
+                }}
+              />
+            </div>
+
             <InputGroup
               title="Email"
               placeholder="Email"
