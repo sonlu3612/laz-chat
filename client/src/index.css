@@ -1,1 +1,45 @@
 @import "tailwindcss";
+
+@theme {
+  --color-light-primary: rgb(54 97 142);
+  --color-light-surface-tint: rgb(54 97 142);
+  --color-light-on-primary: rgb(255 255 255);
+  --color-light-primary-container: rgb(210 228 255);
+  --color-light-on-primary-container: rgb(26 73 117);
+  --color-light-secondary: rgb(83 95 112);
+  --color-light-on-secondary: rgb(255 255 255);
+  --color-light-secondary-container: rgb(215 227 248);
+  --color-light-on-secondary-container: rgb(59 72 88);
+  --color-light-tertiary: rgb(107 87 120);
+  --color-light-on-tertiary: rgb(255 255 255);
+  --color-light-tertiary-container: rgb(243 218 255);
+  --color-light-on-tertiary-container: rgb(82 63 95);
+  --color-light-error: rgb(186 26 26);
+  --color-light-on-error: rgb(255 255 255);
+  --color-light-error-container: rgb(255 218 214);
+  --color-light-on-error-container: rgb(147 0 10);
+  --color-light-success: rgb(187 240 182);
+  --color-light-on-success: rgb(255 255 255);
+  --color-light-success-container: rgb(187 240 182);
+  --color-light-on-success-container: rgb(34 80 37);
+  --color-light-background: rgb(248 249 255);
+  --color-light-on-background: rgb(25 28 32);
+  --color-light-surface: rgb(248 249 255);
+  --color-light-on-surface: rgb(25 28 32);
+  --color-light-surface-variant: rgb(223 226 235);
+  --color-light-on-surface-variant: rgb(67 71 78);
+  --color-light-outline: rgb(115 119 127);
+  --color-light-outline-variant: rgb(195 198 207);
+  --color-light-shadow: rgb(0 0 0);
+  --color-light-scrim: rgb(0 0 0);
+  --color-light-inverse-surface: rgb(46 49 53);
+  --color-light-inverse-on-surface: rgb(239 240 247);
+  --color-light-inverse-primary: rgb(161 202 253);
+  --color-light-surface-dim: rgb(216 218 224);
+  --color-light-surface-bright: rgb(248 249 255);
+  --color-light-surface-container-lowest: rgb(255 255 255);
+  --color-light-surface-container-low: rgb(242 243 250);
+  --color-light-surface-container: rgb(236 238 244);
+  --color-light-surface-container-high: rgb(230 232 238);
+  --color-light-surface-container-highest: rgb(225 226 232);
+}
