@@ -1,9 +1,12 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import axios from "axios";
 import { isEmail, matches } from "validator";
 import InputGroup from "../Components/InputGroup";
 
 const Register = (props) => {
+  const REGISTER_API_URL = "https://localhost:5016/api/users/register";
+
   useEffect(() => {
     console.log("Register component mounted");
   });
@@ -155,7 +158,40 @@ const Register = (props) => {
     if (!isValid) {
       return;
     }
-    alert("Form is ok!");
+
+    setPostMessage({
+      isSuccess: true,
+      text: "Sending...",
+    });
+
+    try {
+      await axios
+        .post(REGISTER_API_URL, {
+          firstName,
+          lastName,
+          email,
+          phone,
+          password,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            setPostMessage({
+              isSuccess: true,
+              text: "Registration Success!",
+            });
+          } else {
+            setPostMessage({
+              isSuccess: false,
+              text: "Error! " + response.data,
+            });
+          }
+        });
+    } catch (err) {
+      setPostMessage({
+        isSuccess: false,
+        text: "Error! " + (err.response ? err.response.data : err.message),
+      });
+    }
   };
 
   return (
