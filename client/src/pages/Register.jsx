@@ -200,18 +200,18 @@ const Register = (props) => {
 
   return (
     <>
-      <div className="w-screen h-screen flex bg-white">
-        <div className="shadow border-1 rounded-2xl py-8 mx-auto my-auto w-md">
+      <div className="bg-light-surface-container-highest w-screen h-screen flex ">
+        <div className=" bg-light-surface rounded-2xl py-8 mx-auto my-auto w-md">
           <form>
             <h2 className="text-center text-2xl mb-4">Create an account</h2>
 
             {postMessage.text !== "" &&
               (postMessage.isSuccess === true ? (
-                <p class="text-green-500 text-center mb-4">
+                <p class="text-light-success text-center mb-4">
                   {postMessage.text}
                 </p>
               ) : (
-                <p class="text-red-500 text-center mb-4">{postMessage.text}</p>
+                <p class="text-light-error text-center mb-4">{postMessage.text}</p>
               ))}
 
             <div className="grid grid-cols-2">
@@ -302,11 +302,11 @@ const Register = (props) => {
 
             <p className="px-4 py-2">
               By creating an account, you agree to the{" "}
-              <a href="#" className="text-blue-600">
+              <a href="#" className="text-light-primary underline">
                 Terms of Service
               </a>{" "}
               and have read the{" "}
-              <a href="#" className="text-blue-600">
+              <a href="#" className="text-light-primary underline">
                 Privacy Policy
               </a>
             </p>
@@ -315,8 +315,7 @@ const Register = (props) => {
               <button
                 type="submit"
                 onClick={handleSubmitAsync}
-                className="rounded-2xl text-center m-auto px-6 py-2 cursor-pointer bg-blue-200 hover:bg-blue-400"
-                style={{ transition: "background 100ms linear" }}
+                className=" bg-light-primary text-light-on-primary rounded-2xl text-center m-auto px-6 py-2 cursor-pointer"
               >
                 Create Account
               </button>
@@ -324,7 +323,7 @@ const Register = (props) => {
 
             <p className="px-4 pt-2 text-center">
               Already have an account?{" "}
-              <a className="text-blue-600" href="/login">
+              <a className="text-light-primary underline" href="/login">
                 Log in
               </a>
             </p>
