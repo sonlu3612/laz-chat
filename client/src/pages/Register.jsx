@@ -12,20 +12,21 @@ const Register = (props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
     useState("");
 
   const firstNameRegex = /^[A-Za-z]+(?:[-\s][A-Za-z]+)*$/;
   const lastNameRegex = /^[A-Za-z]+(?:[-\s][A-Za-z]+)*$/;
+  const phoneRegex = /^[0-9]{10}$/;
 
   const isFirstNameValid = () => {
     if (!firstName.trim()) {
@@ -70,12 +71,15 @@ const Register = (props) => {
     return true;
   };
 
-  const isUserNameValid = () => {
-    if (!username.trim()) {
-      setUsernameErrorMessage("Username is required.");
+  const isPhoneValid = () => {
+    if (!phone.trim()) {
+      setPhoneErrorMessage("Phone is required.");
       return false;
-    } else if (!matches(username, /^[a-zA-Z0-9]+$/)) {
-      setUsernameErrorMessage("Username can only contain letters and numbers.");
+    } else if (!(phone.length == 10)) {
+      setPhoneErrorMessage("Phone must be 10 digits.");
+      return false;
+    } else if (!matches(phone, phoneRegex)) {
+      setPhoneErrorMessage("Phone can only contain letters and numbers.");
       return false;
     }
     return true;
@@ -120,7 +124,7 @@ const Register = (props) => {
     const isFirstNameOK = isFirstNameValid();
     const isLastNameOK = isLastNameValid();
     const isEmailOK = isEmailValid();
-    const isUsernameOK = isUserNameValid();
+    const isPhoneOK = isPhoneValid();
     const isPasswordOK = isPasswordValid();
     const isConfirmPasswordOK = isPasswordOK ? isConfirmPasswordValid() : true;
 
@@ -133,7 +137,7 @@ const Register = (props) => {
       isFirstNameOK &&
       isLastNameOK &&
       isEmailOK &&
-      isUsernameOK &&
+      isPhoneOK &&
       isPasswordOK &&
       isConfirmPasswordOK
     );
@@ -199,15 +203,15 @@ const Register = (props) => {
             />
 
             <InputGroup
-              title="Username"
-              placeholder="Username"
-              type="text"
+              title="Phone"
+              placeholder="Phone"
+              type="tel"
               isRequired={true}
-              errorMessage={usernameErrorMessage}
-              value={username}
+              errorMessage={phoneErrorMessage}
+              value={phone}
               onChange={(event) => {
-                setUsername(event.target.value);
-                setUsernameErrorMessage("");
+                setPhone(event.target.value);
+                setPhoneErrorMessage("");
               }}
             />
 
