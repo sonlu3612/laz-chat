@@ -1,6 +1,5 @@
-import React, { use } from "react";
 import { useEffect } from "react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { isEmail, matches } from "validator";
 import InputGroup from "../Components/InputGroup";
 
