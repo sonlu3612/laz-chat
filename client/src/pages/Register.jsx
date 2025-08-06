@@ -4,6 +4,7 @@ import { replace, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { isEmail, matches } from "validator";
 import InputGroup from "../Components/InputGroup";
+import { Navigate } from "react-router-dom";
 
 const Register = (props) => {
   const REGISTER_API_URL = "https://localhost:5016/api/users/register";
@@ -323,9 +324,9 @@ const Register = (props) => {
 
             <p className="px-4 pt-2 text-center">
               Already have an account?{" "}
-              <a className="text-light-primary underline" href="/login">
+              <span className="text-light-primary underline cursor-pointer" onClick={() => navigate('/login')}>
                 Log in
-              </a>
+              </span>
             </p>
           </form>
         </div>
