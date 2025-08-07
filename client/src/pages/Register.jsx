@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { replace, useNavigate } from "react-router-dom";
-import axios from "axios";
+
+import axiosInstance from "../utils/axios";
 import { isEmail, matches } from "validator";
 import InputGroup from "../Components/InputGroup";
 import { Navigate } from "react-router-dom";
 
 const Register = (props) => {
-  const REGISTER_API_URL = "https://localhost:5016/api/users/register";
-
   useEffect(() => {
     console.log("Register component mounted");
   });
@@ -169,8 +168,8 @@ const Register = (props) => {
     });
 
     try {
-      await axios
-        .post(REGISTER_API_URL, {
+      await axiosInstance
+        .post("/api/users/register", {
           firstName,
           lastName,
           email,
@@ -212,7 +211,9 @@ const Register = (props) => {
                   {postMessage.text}
                 </p>
               ) : (
-                <p class="text-light-error text-center mb-4">{postMessage.text}</p>
+                <p class="text-light-error text-center mb-4">
+                  {postMessage.text}
+                </p>
               ))}
 
             <div className="grid grid-cols-2">
