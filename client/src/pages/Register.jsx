@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { replace, useNavigate } from "react-router-dom";
+import { isEmail, matches } from "validator";
 
 import axiosInstance from "../utils/axios";
-import { isEmail, matches } from "validator";
 import InputGroup from "../Components/InputGroup";
 import { Navigate } from "react-router-dom";
 
