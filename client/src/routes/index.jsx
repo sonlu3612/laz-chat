@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import ProtectedRoute from "../Components/auth/ProtectedRoute";
 
@@ -9,7 +9,7 @@ const Login = React.lazy(() => import("../pages/Loginpage"));
 const Register = React.lazy(() => import("../pages/Register"));
 
 export default function AppRoutes() {
-  const [user, setUser] = useState(null);
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <Routes>
