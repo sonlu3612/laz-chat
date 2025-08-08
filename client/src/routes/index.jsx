@@ -7,6 +7,7 @@ import ProtectedRoute from "../Components/auth/ProtectedRoute";
 const Home = React.lazy(() => import("../pages/Home"));
 const Login = React.lazy(() => import("../pages/Loginpage"));
 const Register = React.lazy(() => import("../pages/Register"));
+const Message = React.lazy(() => import("../pages/Message"));
 
 export default function AppRoutes() {
   const { user } = useSelector((state) => state.auth);
@@ -30,6 +31,10 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route path="/message">
+        <Route index element={<Message />} />
+        <Route path=":id" element={<Message />} />
+      </Route>
     </Routes>
   );
 }
