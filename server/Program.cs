@@ -1,11 +1,15 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 using server.Data;
+using server.Domain;
+using server.Mappings;
 using server.Services;
-using server.Models;
+using server.Hubs;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +44,10 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IChannelService, ChannelService>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -76,7 +83,7 @@ builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("reactApp", builder =>
     {
-        builder.WithOrigins("http://localhost:5173")
+        builder.WithOrigins("http://localhost:3000/")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
@@ -99,7 +106,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-//app.MapHub<ChatHub>("/Chat");
+app.MapHub<ChatHub>("/Chat");
 
 var summaries = new[]
 {

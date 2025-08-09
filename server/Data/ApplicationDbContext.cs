@@ -1,4 +1,4 @@
-﻿using server.Models;
+﻿using server.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -13,6 +13,9 @@ namespace server.Data
         }
 
         public DbSet<UserVerification> UserVerifications { get; set; }
+        public DbSet<UserConnection> UserConnections { get; set; }
+        public DbSet<Channel> Channels { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -39,6 +42,59 @@ namespace server.Data
             builder.Entity<IdentityUserLogin<int>>().ToTable("user_logins");
 
             builder.Entity<UserVerification>().ToTable("user_verification");
+
+            builder.Entity<UserConnection>(entity =>
+            {
+                entity.ToTable("user_connections");
+                entity.HasKey(uc => uc.Id);
+                entity.Property(uc => uc.Id).HasColumnName("id");
+                entity.Property(uc => uc.UserId).HasColumnName("user_id");
+                entity.Property(uc => uc.ChannelId).HasColumnName("channel_id");
+                entity.Property(uc => uc.JoinedAt).HasColumnName("joined_at");
+                entity.Property(uc => uc.LeftAt).HasColumnName("left_at");
+                entity.HasOne(uc => uc.User)
+                      .WithMany()
+                      .HasForeignKey(uc => uc.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(uc => uc.Channel)
+                      .WithMany()
+                      .HasForeignKey(uc => uc.ChannelId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<Channel>(entity =>
+            {
+                entity.ToTable("channels");
+                entity.HasKey(c => c.Id);
+                entity.Property(c => c.Id).HasColumnName("id");
+                entity.Property(c => c.CreatorId).HasColumnName("creator_id");
+                entity.Property(c => c.Title).HasColumnName("title");
+                entity.Property(c => c.IsGroupChat).HasColumnName("is_group_chat");
+                entity.Property(c => c.Type).HasColumnName("type");
+                entity.Property(c => c.CreatedAt).HasColumnName("created_at");
+                entity.Property(c => c.UpdatedAt).HasColumnName("updated_at");
+                entity.Property(c => c.DeletedAt).HasColumnName("deleted_at");
+            });
+
+            builder.Entity<Message>(entity =>
+            {
+                entity.ToTable("messages");
+                entity.HasKey(m => m.Id);
+                entity.Property(m => m.Id).HasColumnName("id");
+                entity.Property(m => m.ChannelId).HasColumnName("channel_id");
+                entity.Property(m => m.UserId).HasColumnName("user_id");
+                entity.Property(m => m.Content).HasColumnName("content");
+                entity.Property(m => m.SentAt).HasColumnName("sent_at");
+                entity.Property(m => m.EditedAt).HasColumnName("edited_at");
+                entity.HasOne(m => m.Channel)
+                      .WithMany()
+                      .HasForeignKey(m => m.ChannelId)
+                      .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(m => m.User)
+                      .WithMany()
+                      .HasForeignKey(m => m.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
         }
     }
 }

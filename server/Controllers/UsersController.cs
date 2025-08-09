@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using server.Models;
 using server.Services;
+using server.Dtos;
+using server.Domain;
 using System.Threading.Tasks;
 
 namespace server.Controllers

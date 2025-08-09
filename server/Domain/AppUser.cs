@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace server.Models
+namespace server.Domain
 {
     [Table("Users")]
     public class AppUser : IdentityUser<int>
     {
-        public string Phone { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public bool IsActive { get; set; } = false;

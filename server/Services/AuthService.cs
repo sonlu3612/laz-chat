@@ -1,15 +1,13 @@
+using server.Dtos;
+using server.Domain;
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Google.Apis.Auth;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
-using server.Models;
-
-using LoginRequest = server.Models.LoginRequest;
-using RegisterRequest = server.Models.RegisterRequest;
+using AutoMapper;
 
 namespace server.Services;
 
@@ -18,12 +16,14 @@ public class  AuthService : IAuthService
     public readonly UserManager<AppUser> _userManager;
     public readonly SignInManager<AppUser> _signInManager;
     public readonly IConfiguration _configuration;
+    public readonly IMapper _mapper;
 
-    public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration)
+    public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration, IMapper mapper)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _configuration = configuration;
+        _mapper = mapper;
     }
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
@@ -33,17 +33,10 @@ public class  AuthService : IAuthService
             throw new Exception("Email already exists.");
         }
         
-        var user = new AppUser
-        {
-            UserName = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            Email = request.Email,
-            PhoneNumber = request.Phone,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow,
-            IsActive = true,
-        };
+        var user = _mapper.Map<AppUser>(request);
+        user.CreatedAt = DateTime.UtcNow;
+        user.UpdatedAt = DateTime.UtcNow;
+        user.IsActive = true;
 
         var result = await _userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)
@@ -53,14 +46,9 @@ public class  AuthService : IAuthService
 
         var token = await GenerateJwtToken(user);
 
-        return new AuthResponse
-        {
-            Token = token,
-            Email = user.Email,
-            Phone = user.PhoneNumber,
-            FirstName = user.FirstName,
-            LastName = user.LastName
-        };
+        var response = _mapper.Map<AuthResponse>(user);
+        response.Token = token;
+        return response;
     }
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
@@ -78,14 +66,10 @@ public class  AuthService : IAuthService
         }
 
         var token = await GenerateJwtToken(user);
-        return new AuthResponse
-        {
-            Token = token,
-            Email = user.Email ?? string.Empty,
-            Phone = user.PhoneNumber ?? string.Empty,
-            FirstName = user.FirstName,
-            LastName = user.LastName
-        };
+        
+        var response = _mapper.Map<AuthResponse>(user);
+        response.Token = token;
+        return response;
     }
 
     public async Task<AuthResponse> GoogleLoginAsync(GoogleLoginRequest request)
@@ -128,15 +112,11 @@ public class  AuthService : IAuthService
         }
 
         var token = await GenerateJwtToken(user);
-
-        return new AuthResponse
-        {
-            Token = token,
-            Email = user.Email ?? string.Empty,
-            Phone = user.PhoneNumber ?? string.Empty,
-            FirstName = user.FirstName,
-            LastName = user.LastName
-        };
+        
+        var response = _mapper.Map<AuthResponse>(user);
+        response.Token = token;
+        return response;
+        
     }
 
     private Task<string> GenerateJwtToken(AppUser user)
