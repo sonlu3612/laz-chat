@@ -8,7 +8,7 @@ const Message = () => {
 
   return (
     <div className="flex w-screen h-screen bg-light-surface-container-highest">
-      <div className="w-sm h-full p-4 pr-0">
+      <div className="min-w-sm w-sm h-full p-4 pr-0">
         <ConversationList />
       </div>
       <div className="w-full h-full p-4">
