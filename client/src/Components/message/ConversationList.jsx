@@ -6,9 +6,11 @@ const ConversationList = () => {
   return (
     <div className="w-full h-full bg-light-surface rounded-2xl flex flex-col">
       <p className="pt-3 px-4 text-2xl">Laz Chat</p>
+
       <div className="pt-3 pb-3 px-4">
         <SearchBox />
       </div>
+
       <div className="w-full h-full overflow-y-auto">
         <div className="mr-2">
           <ConversationItem
@@ -44,7 +46,8 @@ const ConversationList = () => {
           />
         </div>
       </div>
-      <div className="mt-auto px-4 py-3 border-t-2 flex">
+
+      <div className="mt-auto px-4 py-3 border-t flex">
         <div className="w-10 h-10 rounded-full bg-gray-400 flex-shrink-0">
           {/* Placeholder for Avatar component or image */}
         </div>
