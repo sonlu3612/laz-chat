@@ -9,9 +9,10 @@ const ConversationList = () => {
         <SearchBox />
       </div>
       <div className="w-full h-full overflow-y-auto">
-        <div className="mx-2">
+        <div className="mr-2">
           <ConversationItem
             avatar={""}
+            isSelected={true}
             conversationName="User/Conversation Name 1"
             lastMessage="Last Message"
             timestamp="12:00 PM"

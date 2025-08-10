@@ -3,9 +3,14 @@ const ConversationItem = ({
   conversationName,
   lastMessage,
   timestamp,
+  isSelected,
 }) => {
   return (
-    <div className="conversation-item flex items-center p-2 overflow-hidden">
+    <div
+      className={`conversation-item flex items-center p-2 overflow-hidden hover:bg-light-secondary-container 
+        ${isSelected ? "border-l-2 border-light-primary py-2 pl-1.5 pr-2" : ""}
+        `}
+    >
       {/* Avatar */}
       <div className="w-10 h-10 rounded-full bg-gray-400 flex-shrink-0">
         {/* Placeholder for Avatar component or image */}
