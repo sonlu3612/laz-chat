@@ -1,8 +1,55 @@
+import { useParams } from "react-router-dom";
+
 import SettingIcon from "../../assets/icons/SettingIcon";
 import SearchBox from "../SearchBox";
 import ConversationItem from "./ConversationItem";
 
 const ConversationList = () => {
+  const {id} = useParams();
+
+  const mockConversationList = [
+    {
+      conversationId: 1,
+      avatar: undefined,
+      isSelected: true,
+      conversationName: "User/Conversation Name 1",
+      lastMessage: "Last Message",
+      timestamp: "12:00 PM",
+    },
+    {
+      conversationId: 2,
+      avatar: undefined,
+      isSelected: false,
+      conversationName: "User/Conversation Name 2",
+      lastMessage: "Last Message",
+      timestamp: "12:00 PM",
+    },
+    {
+      conversationId: 3,
+      avatar: undefined,
+      isSelected: false,
+      conversationName: "User/Conversation Name 3",
+      lastMessage: "Last Message",
+      timestamp: "12:00 PM",
+    },
+    {
+      conversationId: 4,
+      avatar: undefined,
+      isSelected: false,
+      conversationName: "User/Conversation Name 4",
+      lastMessage: "Last Message",
+      timestamp: "12:00 PM",
+    },
+    {
+      conversationId: 5,
+      avatar: undefined,
+      isSelected: false,
+      conversationName: "User/Conversation Name 5",
+      lastMessage: "Last Message",
+      timestamp: "12:00 PM",
+    },
+  ];
+
   return (
     <div className="w-full h-full bg-light-surface rounded-2xl flex flex-col">
       <p className="pt-3 px-4 text-2xl">Laz Chat</p>
@@ -13,42 +60,17 @@ const ConversationList = () => {
 
       <div className="w-full h-full overflow-y-auto">
         <div className="mr-2">
-          <ConversationItem
-            conversationId={1}
-            avatar={""}
-            isSelected={true}
-            conversationName="User/Conversation Name 1"
-            lastMessage="Last Message"
-            timestamp="12:00 PM"
-          />
-          <ConversationItem
-            conversationId={2}
-            avatar={""}
-            conversationName="User/Conversation Name 2"
-            lastMessage="Last Message"
-            timestamp="12:00 PM"
-          />
-          <ConversationItem
-            conversationId={3}
-            avatar={""}
-            conversationName="User/Conversation Name 3"
-            lastMessage="Last Message"
-            timestamp="12:00 PM"
-          />
-          <ConversationItem
-            conversationId={4}
-            avatar={""}
-            conversationName="User/Conversation Name 4"
-            lastMessage="Last Message"
-            timestamp="12:00 PM"
-          />
-          <ConversationItem
-            conversationId={5}
-            avatar={""}
-            conversationName="User/Conversation Name 5"
-            lastMessage="Last Message"
-            timestamp="12:00 PM"
-          />
+          {mockConversationList.map((item) => (
+            <ConversationItem
+              key={item.conversationId}
+              conversationId={item.conversationId}
+              avatar={item.avatar}
+              isSelected={id === item.conversationId}
+              conversationName={item.conversationName}
+              lastMessage={item.lastMessage}
+              timestamp={item.timestamp}
+            />
+          ))}
         </div>
       </div>
 
