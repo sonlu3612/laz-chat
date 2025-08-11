@@ -14,6 +14,7 @@ const ConversationList = () => {
       <div className="w-full h-full overflow-y-auto">
         <div className="mr-2">
           <ConversationItem
+            conversationId={1}
             avatar={""}
             isSelected={true}
             conversationName="User/Conversation Name 1"
@@ -21,24 +22,28 @@ const ConversationList = () => {
             timestamp="12:00 PM"
           />
           <ConversationItem
+            conversationId={2}
             avatar={""}
             conversationName="User/Conversation Name 2"
             lastMessage="Last Message"
             timestamp="12:00 PM"
           />
           <ConversationItem
+            conversationId={3}
             avatar={""}
             conversationName="User/Conversation Name 3"
             lastMessage="Last Message"
             timestamp="12:00 PM"
           />
           <ConversationItem
+            conversationId={4}
             avatar={""}
             conversationName="User/Conversation Name 4"
             lastMessage="Last Message"
             timestamp="12:00 PM"
           />
           <ConversationItem
+            conversationId={5}
             avatar={""}
             conversationName="User/Conversation Name 5"
             lastMessage="Last Message"
