@@ -1,6 +1,84 @@
+import { useState } from "react";
 import React from "react";
 
 const ChatWindow = () => {
+  const mockMessages = [
+    {
+      id: 1,
+      nickname: "John Doe",
+      text: "Hi team, just a reminder about the adoption event this Saturday!",
+      isMe: false,
+    },
+    {
+      id: 2,
+      nickname: "",
+      text: "Got it, thanks for the reminder!",
+      isMe: true,
+    },
+    {
+      id: 3,
+      nickname: "Jane Smith",
+      text: "I've already started preparing the flyers. Does anyone need help with anything?",
+      isMe: false,
+    },
+    {
+      id: 4,
+      nickname: "",
+      text: "That's great, Jane! I'm still working on the social media posts.",
+      isMe: true,
+    },
+    {
+      id: 5,
+      nickname: "John Doe",
+      text: "I'll be setting up the registration table. We'll need some pens and clipboards.",
+      isMe: false,
+    },
+    {
+      id: 6,
+      nickname: "Jane Smith",
+      text: "I can bring those, John. I have a box of office supplies.",
+      isMe: false,
+    },
+    {
+      id: 7,
+      nickname: "",
+      text: "Perfect! Thanks, Jane. I'll make sure to mention the supplies in the checklist.",
+      isMe: true,
+    },
+    {
+      id: 8,
+      nickname: "John Doe",
+      text: "Also, remember to bring water bowls for the animals. It's going to be a warm day.",
+      isMe: false,
+    },
+    {
+      id: 9,
+      nickname: "Jane Smith",
+      text: "Good point, John. I'll add that to my list.",
+      isMe: false,
+    },
+    {
+      id: 10,
+      nickname: "",
+      text: "I'll bring some extra water bottles for the volunteers too.",
+      isMe: true,
+    },
+    {
+      id: 11,
+      nickname: "John Doe",
+      text: "Excellent! Every little bit helps.",
+      isMe: false,
+    },
+    {
+      id: 12,
+      nickname: "Jane Smith",
+      text: "Has anyone confirmed the vet's availability for the health checks?",
+      isMe: false,
+    },
+  ];
+
+  const [messages, setMessages] = useState(mockMessages);
+
   return (
     <div className="w-full h-full bg-light-surface flex flex-col rounded-2xl">
       {/* Header */}
@@ -32,33 +110,30 @@ const ChatWindow = () => {
 
       {/* Chat messages */}
       <div className="flex-1 p-4 overflow-y-auto">
-        {/* Mock Message */}
-        <div className="flex items-start space-x-3 mb-4">
-          <img alt="Profile" className="w-10 h-10 rounded-full" />
-          <div className="flex-1">
-            <div className="flex items-center space-x-2">
-              <span className="font-semibold text-light-on-surface">
-                John Doe
-              </span>
+        {messages.map((msg) =>
+          msg.isMe ? (
+            <div className="flex items-start space-x-3 mb-4 justify-end">
+              <div className="flex-1 text-right">
+                <div className="flex items-center space-x-2 justify-end">
+                  <span className="font-semibold text-light-on-surface"></span>
+                </div>
+                <p className="text-light-on-surface-variant">{msg.text}</p>
+              </div>
             </div>
-            <p className="text-light-on-surface-variant">
-              Hi team, just a reminder about the adoption event this Saturday!
-            </p>
-          </div>
-        </div>
-        {/* More messages would go here */}
-        {/* Mock Outgoing Message */}
-        <div className="flex items-start space-x-3 mb-4 justify-end">
-          <div className="flex-1 text-right">
-            <div className="flex items-center space-x-2 justify-end">
-              <span className="font-semibold text-light-on-surface">You</span>
+          ) : (
+            <div className="flex items-start space-x-3 mb-4">
+              <img alt="Profile" className="w-10 h-10 rounded-full" />
+              <div className="flex-1">
+                <div className="flex items-center space-x-2">
+                  <span className="font-semibold text-light-on-surface">
+                    {msg.nickname}
+                  </span>
+                </div>
+                <p className="text-light-on-surface-variant">{msg.text}</p>
+              </div>
             </div>
-            <p className="text-light-on-surface-variant">
-              Got it, thanks for the reminder!
-            </p>
-          </div>
-          <img alt="Profile" className="w-10 h-10 rounded-full" />
-        </div>
+          )
+        )}
       </div>
 
       {/* Input area */}
