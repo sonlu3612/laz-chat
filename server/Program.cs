@@ -3,15 +3,23 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
 using server.Data;
 using server.Domain;
+using server.Hubs;
 using server.Mappings;
 using server.Services;
-using server.Hubs;
-
 
 var builder = WebApplication.CreateBuilder(args);
+
+DotNetEnv.Env.Load();
+
+string connectionString = $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" +
+                          $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
+                          $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
+                          $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseNpgsql(connectionString));
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -42,8 +50,6 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IChannelService, ChannelService>();
