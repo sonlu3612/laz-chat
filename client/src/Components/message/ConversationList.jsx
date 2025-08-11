@@ -1,15 +1,16 @@
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import SettingIcon from "../../assets/icons/SettingIcon";
 import SearchBox from "../SearchBox";
 import ConversationItem from "./ConversationItem";
 
 const ConversationList = () => {
-  const {id} = useParams();
+  const { id } = useParams();
 
   const mockConversationList = [
     {
-      conversationId: 1,
+      conversationId: "1",
       avatar: undefined,
       isSelected: true,
       conversationName: "User/Conversation Name 1",
@@ -17,7 +18,7 @@ const ConversationList = () => {
       timestamp: "12:00 PM",
     },
     {
-      conversationId: 2,
+      conversationId: "2",
       avatar: undefined,
       isSelected: false,
       conversationName: "User/Conversation Name 2",
@@ -25,7 +26,7 @@ const ConversationList = () => {
       timestamp: "12:00 PM",
     },
     {
-      conversationId: 3,
+      conversationId: "3",
       avatar: undefined,
       isSelected: false,
       conversationName: "User/Conversation Name 3",
@@ -33,7 +34,7 @@ const ConversationList = () => {
       timestamp: "12:00 PM",
     },
     {
-      conversationId: 4,
+      conversationId: "4",
       avatar: undefined,
       isSelected: false,
       conversationName: "User/Conversation Name 4",
@@ -41,7 +42,7 @@ const ConversationList = () => {
       timestamp: "12:00 PM",
     },
     {
-      conversationId: 5,
+      conversationId: "5",
       avatar: undefined,
       isSelected: false,
       conversationName: "User/Conversation Name 5",
@@ -49,6 +50,23 @@ const ConversationList = () => {
       timestamp: "12:00 PM",
     },
   ];
+
+  const [list, setList] = useState(mockConversationList);
+
+  useEffect(() => {
+    setList((prevList) =>
+      prevList.map((item) => {
+        const isCurrent = item.conversationId === id;
+        const wasSelected = item.isSelected;
+
+        if (isCurrent === true && wasSelected === false)
+          return { ...item, isSelected: true };
+        else if (isCurrent === false && wasSelected === true)
+          return { ...item, isSelected: false };
+        return item;
+      })
+    );
+  }, [id]);
 
   return (
     <div className="w-full h-full bg-light-surface rounded-2xl flex flex-col">
@@ -60,12 +78,12 @@ const ConversationList = () => {
 
       <div className="w-full h-full overflow-y-auto">
         <div className="mr-2">
-          {mockConversationList.map((item) => (
+          {list.map((item) => (
             <ConversationItem
               key={item.conversationId}
               conversationId={item.conversationId}
               avatar={item.avatar}
-              isSelected={id === item.conversationId}
+              isSelected={item.isSelected}
               conversationName={item.conversationName}
               lastMessage={item.lastMessage}
               timestamp={item.timestamp}
