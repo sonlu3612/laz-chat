@@ -1,6 +1,9 @@
 import { useState } from "react";
 import React from "react";
 
+import InfoIcon from "../../assets/icons/InfoIcon";
+import SendIcon from "../../assets/icons/SendIcon";
+
 const ChatWindow = () => {
   const mockMessages = [
     {
@@ -78,6 +81,7 @@ const ChatWindow = () => {
   ];
 
   const [messages, setMessages] = useState(mockMessages);
+  const [currentMessage, setCurrentMessage] = useState("");
 
   return (
     <div className="w-full h-full bg-light-surface flex flex-col rounded-2xl">
@@ -93,19 +97,12 @@ const ChatWindow = () => {
           <p className="font-bold truncate">Conversation Name</p>
           <p className="text-gray-600 text-sm truncate">Is online</p>
         </div>
-      </div>
 
-      {/* Tabs */}
-      <div className="flex border-b border-light-outline">
-        <button className="px-4 py-2 text-light-primary border-b-2 border-light-primary">
-          Chat
-        </button>
-        <button className="px-4 py-2 text-light-on-surface-variant">
-          Files
-        </button>
-        <button className="px-4 py-2 text-light-on-surface-variant">
-          Tasks
-        </button>
+        <div className="mr-0 flex my-auto">
+          <button className="w-10 h-10 rounded-full hover:bg-light-primary-container">
+            <InfoIcon className="w-6 h-6 m-auto  hover:fill-light-on-primary-container hover:w-6.5 hover:h-6.5 transition-all" />
+          </button>
+        </div>
       </div>
 
       {/* Chat messages */}
@@ -140,11 +137,22 @@ const ChatWindow = () => {
       <div className="p-4 flex">
         <input
           type="text"
+          value={currentMessage}
+          onChange={(e) => setCurrentMessage(e.target.value)}
           placeholder="Type a message..."
+          autoComplete="off"
           className="flex-1 border rounded-full px-4 py-2 mr-2 bg-light-surface text-light-on-surface border-light-outline focus:outline-none focus:border-light-primary"
         />
-        <button className="bg-light-primary text-light-on-primary rounded-full px-6 py-2">
-          Send
+
+        <button
+          className=" hover:bg-light-secondary-container rounded-full w-12 h-full flex"
+          disabled={!currentMessage.trim()}
+        >
+          {currentMessage.trim() ? (
+            <SendIcon className="w-6 h-6 fill-light-on-primary-container m-auto" />
+          ) : (
+            <p className="m-auto">🖕</p>
+          )}
         </button>
       </div>
     </div>
