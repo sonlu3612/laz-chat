@@ -35,7 +35,16 @@ namespace server.Services
                 throw new InvalidOperationException($"Channel with id {id} not found.");
             return channel;
         }
-     
+
+        public async Task<Channel> GetChannelByTitleAsync(string title)
+        {
+            var channel = await _context.Channels.FirstOrDefaultAsync(c => c.Title.ToLower() == title.ToLower());
+
+            if (channel == null)
+                throw new InvalidOperationException($"Channel with title '{title}' not found.");
+            return channel;
+        }
+
         public async Task<IEnumerable<Channel>> GetAllChannelsAsync()
         {
             return await _context.Channels.ToListAsync();

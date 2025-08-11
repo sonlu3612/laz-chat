@@ -50,6 +50,17 @@ public class ChannelsController : ControllerBase
         return Ok(channel);
     }
 
+    [HttpGet("GetChannelByTitle")]
+    public async Task<IActionResult> GetChannelByTitle(string title)
+    {
+        var channel = await _channelService.GetChannelByTitleAsync(title);
+        if (channel == null)
+        {
+            return NotFound("Channel not found.");
+        }
+        return Ok(channel);
+    }
+
     [HttpGet("all")]
     public async Task<IActionResult> GetAllChannels()
     {

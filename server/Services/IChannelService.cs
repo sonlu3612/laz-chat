@@ -7,6 +7,7 @@ namespace server.Services
     {
         Task<Channel> CreateChannelAsync(CreateChannel channel);
         Task<Channel> GetChannelByIdAsync(int id);
+        Task<Channel> GetChannelByTitleAsync(string title);
         Task<IEnumerable<Channel>> GetAllChannelsAsync();
         Task<bool> UpdateChannelAsync(Channel channel);
         Task<bool> DeleteChannelAsync(int id);
