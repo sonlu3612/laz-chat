@@ -17,7 +17,7 @@ const Register = (props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -29,14 +29,14 @@ const Register = (props) => {
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
     useState("");
 
   const firstNameRegex = /^[A-Za-z]+(?:[-\s][A-Za-z]+)*$/;
   const lastNameRegex = /^[A-Za-z]+(?:[-\s][A-Za-z]+)*$/;
-  const phoneRegex = /^[0-9]{10}$/;
+  const phoneNumberRegex = /^[0-9]{10}$/;
 
   const isFirstNameValid = () => {
     if (!firstName.trim()) {
@@ -81,15 +81,17 @@ const Register = (props) => {
     return true;
   };
 
-  const isPhoneValid = () => {
-    if (!phone.trim()) {
-      setPhoneErrorMessage("Phone is required.");
+  const isPhoneNumberValid = () => {
+    if (!phoneNumber.trim()) {
+      setPhoneNumberErrorMessage("PhoneNumber is required.");
       return false;
-    } else if (!(phone.length == 10)) {
-      setPhoneErrorMessage("Phone must be 10 digits.");
+    } else if (!(phoneNumber.length == 10)) {
+      setPhoneNumberErrorMessage("PhoneNumber must be 10 digits.");
       return false;
-    } else if (!matches(phone, phoneRegex)) {
-      setPhoneErrorMessage("Phone can only contain letters and numbers.");
+    } else if (!matches(phoneNumber, phoneNumberRegex)) {
+      setPhoneNumberErrorMessage(
+        "Phone Number can only contain letters and numbers."
+      );
       return false;
     }
     return true;
@@ -134,7 +136,7 @@ const Register = (props) => {
     const isFirstNameOK = isFirstNameValid();
     const isLastNameOK = isLastNameValid();
     const isEmailOK = isEmailValid();
-    const isPhoneOK = isPhoneValid();
+    const isPhoneNumberOK = isPhoneNumberValid();
     const isPasswordOK = isPasswordValid();
     const isConfirmPasswordOK = isPasswordOK ? isConfirmPasswordValid() : true;
 
@@ -147,7 +149,7 @@ const Register = (props) => {
       isFirstNameOK &&
       isLastNameOK &&
       isEmailOK &&
-      isPhoneOK &&
+      isPhoneNumberOK &&
       isPasswordOK &&
       isConfirmPasswordOK
     );
@@ -173,7 +175,7 @@ const Register = (props) => {
           firstName,
           lastName,
           email,
-          phone,
+          phoneNumber,
           password,
         })
         .then((response) => {
@@ -207,11 +209,11 @@ const Register = (props) => {
 
             {postMessage.text !== "" &&
               (postMessage.isSuccess === true ? (
-                <p class="text-light-success text-center mb-4">
+                <p className="text-light-success text-center mb-4">
                   {postMessage.text}
                 </p>
               ) : (
-                <p class="text-light-error text-center mb-4">
+                <p className="text-light-error text-center mb-4">
                   {postMessage.text}
                 </p>
               ))}
@@ -265,11 +267,11 @@ const Register = (props) => {
               placeholder="Phone"
               type="tel"
               isRequired={true}
-              errorMessage={phoneErrorMessage}
-              value={phone}
+              errorMessage={phoneNumberErrorMessage}
+              value={phoneNumber}
               onChange={(event) => {
-                setPhone(event.target.value);
-                setPhoneErrorMessage("");
+                setPhoneNumber(event.target.value);
+                setPhoneNumberErrorMessage("");
                 setPostMessage({ text: "" });
               }}
             />
@@ -325,7 +327,10 @@ const Register = (props) => {
 
             <p className="px-4 pt-2 text-center">
               Already have an account?{" "}
-              <span className="text-light-primary underline cursor-pointer" onClick={() => navigate('/login')}>
+              <span
+                className="text-light-primary underline cursor-pointer"
+                onClick={() => navigate("/login")}
+              >
                 Log in
               </span>
             </p>
