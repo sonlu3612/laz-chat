@@ -46,15 +46,18 @@ const Register = (props) => {
     if (!firstName.trim()) {
       setFirstNameErrorMessage("First name is required.");
       return false;
-    } else if (firstName.length > 20) {
+    }
+    if (firstName.length > 20) {
       setFirstNameErrorMessage("First name cannot exceed 20 characters.");
       return false;
-    } else if (!matches(firstName, firstNameRegex)) {
+    }
+    if (!matches(firstName, firstNameRegex)) {
       setFirstNameErrorMessage(
         "First name can only contain letters and cannot start or end with a space or a hyphen."
       );
       return false;
     }
+
     return true;
   };
 
@@ -62,15 +65,18 @@ const Register = (props) => {
     if (!lastName.trim()) {
       setLastNameErrorMessage("Last name is required.");
       return false;
-    } else if (lastName.length > 20) {
+    }
+    if (lastName.length > 20) {
       setLastNameErrorMessage("Last name cannot exceed 20 characters.");
       return false;
-    } else if (!matches(lastName, lastNameRegex)) {
+    }
+    if (!matches(lastName, lastNameRegex)) {
       setLastNameErrorMessage(
         "Last name can only contain letters cannot start or end with a space or a hyphen."
       );
       return false;
     }
+
     return true;
   };
 
@@ -78,7 +84,8 @@ const Register = (props) => {
     if (!email.trim()) {
       setEmailErrorMessage("Email is required.");
       return false;
-    } else if (!isEmail(email)) {
+    }
+    if (!isEmail(email)) {
       setEmailErrorMessage("Email is not valid");
       return false;
     }
@@ -89,15 +96,18 @@ const Register = (props) => {
     if (!phoneNumber.trim()) {
       setPhoneNumberErrorMessage("PhoneNumber is required.");
       return false;
-    } else if (!(phoneNumber.length == 10)) {
+    }
+    if (!(phoneNumber.length == 10)) {
       setPhoneNumberErrorMessage("PhoneNumber must be 10 digits.");
       return false;
-    } else if (!matches(phoneNumber, phoneNumberRegex)) {
+    }
+    if (!matches(phoneNumber, phoneNumberRegex)) {
       setPhoneNumberErrorMessage(
         "Phone Number can only contain letters and numbers."
       );
       return false;
     }
+
     return true;
   };
 
@@ -105,35 +115,33 @@ const Register = (props) => {
     if (!password.trim()) {
       setPasswordErrorMessage("Password is required.");
       return false;
-    } else if (password.length < 6) {
+    }
+    if (password.length < 6) {
       setPasswordErrorMessage("Password must be at least 6 characters long.");
       return false;
-    } else if (password.length > 20) {
+    }
+    if (password.length > 20) {
       setPasswordErrorMessage("Password cannot exceed 20 characters.");
       return false;
     }
-
     if (!matches(password, passwordRegex_HasLowercase)) {
       setPasswordErrorMessage(
         "Password needs at least 1 digit, 1 lowercase, 1 uppercase and 1 unique char(@, $, !, %, *, ?, &)"
       );
       return false;
     }
-
     if (!matches(password, passwordRegex_HasUppercase)) {
       setPasswordErrorMessage(
         "Password needs at least 1 digit, 1 lowercase, 1 uppercase and 1 unique char(@, $, !, %, *, ?, &)"
       );
       return false;
     }
-
     if (!matches(password, passwordRegex_HasDigit)) {
       setPasswordErrorMessage(
         "Password needs at least 1 digit, 1 lowercase, 1 uppercase and 1 unique char(@, $, !, %, *, ?, &)"
       );
       return false;
     }
-
     if (!matches(password, passwordRegex_HasUniqueChar)) {
       setPasswordErrorMessage(
         "Password needs at least 1 digit, 1 lowercase, 1 uppercase and 1 unique char(@, $, !, %, *, ?, &)"
@@ -148,7 +156,8 @@ const Register = (props) => {
     if (!confirmPassword.trim()) {
       setConfirmPasswordErrorMessage("Confirm Password is required.");
       return false;
-    } else if (
+    }
+    if (
       confirmPassword.length < 6 ||
       confirmPassword.length > 20 ||
       password !== confirmPassword
