@@ -37,6 +37,10 @@ const Register = (props) => {
   const firstNameRegex = /^[A-Za-z]+(?:[-\s][A-Za-z]+)*$/;
   const lastNameRegex = /^[A-Za-z]+(?:[-\s][A-Za-z]+)*$/;
   const phoneNumberRegex = /^[0-9]{10}$/;
+  const passwordRegex_HasLowercase = /[a-z]/;
+  const passwordRegex_HasUppercase = /[A-Z]/;
+  const passwordRegex_HasDigit = /\d/;
+  const passwordRegex_HasUniqueChar = /[@$!%*?&]/;
 
   const isFirstNameValid = () => {
     if (!firstName.trim()) {
@@ -107,10 +111,36 @@ const Register = (props) => {
     } else if (password.length > 20) {
       setPasswordErrorMessage("Password cannot exceed 20 characters.");
       return false;
-    } else if (!matches(password, /^[a-zA-Z0-9]+$/)) {
-      setPasswordErrorMessage("Password can only contain letters and numbers.");
+    }
+
+    if (!matches(password, passwordRegex_HasLowercase)) {
+      setPasswordErrorMessage(
+        "Password needs at least 1 digit, 1 lowercase, 1 uppercase and 1 unique char(@, $, !, %, *, ?, &)"
+      );
       return false;
     }
+
+    if (!matches(password, passwordRegex_HasUppercase)) {
+      setPasswordErrorMessage(
+        "Password needs at least 1 digit, 1 lowercase, 1 uppercase and 1 unique char(@, $, !, %, *, ?, &)"
+      );
+      return false;
+    }
+
+    if (!matches(password, passwordRegex_HasDigit)) {
+      setPasswordErrorMessage(
+        "Password needs at least 1 digit, 1 lowercase, 1 uppercase and 1 unique char(@, $, !, %, *, ?, &)"
+      );
+      return false;
+    }
+
+    if (!matches(password, passwordRegex_HasUniqueChar)) {
+      setPasswordErrorMessage(
+        "Password needs at least 1 digit, 1 lowercase, 1 uppercase and 1 unique char(@, $, !, %, *, ?, &)"
+      );
+      return false;
+    }
+
     return true;
   };
 
