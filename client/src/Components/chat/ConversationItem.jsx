@@ -11,7 +11,7 @@ const ConversationItem = ({
   const navigate = useNavigate();
 
   const handleMoveConversation = () => {
-    navigate(`/message/${conversationId}`);
+    navigate(`/chat/${conversationId}`);
   };
 
   return (
