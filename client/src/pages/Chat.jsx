@@ -1,9 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import ConversationList from "../Components/message/ConversationList";
-import ChatWindow from "../Components/message/ChatWindow";
+import ConversationList from "../Components/chat/ConversationList";
+import ChatWindow from "../Components/chat/ChatWindow";
 
-const Message = () => {
+const Chat = () => {
   const { id } = useParams();
 
   return (
@@ -18,4 +18,4 @@ const Message = () => {
   );
 };
 
-export default Message;
+export default Chat;

@@ -10,7 +10,7 @@ import ProtectedRoute from "./Components/auth/ProtectedRoute";
 const Home = React.lazy(() => import("./pages/Home"));
 const Login = React.lazy(() => import("./pages/Loginpage"));
 const Register = React.lazy(() => import("./pages/Register"));
-const Message = React.lazy(() => import("./pages/Message"));
+const Chat = React.lazy(() => import("./pages/Chat"));
 
 function App() {
   const { user } = useSelector((state) => state.auth);
@@ -40,9 +40,9 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route path="/message">
-        <Route index element={<Message />} />
-        <Route path=":id" element={<Message />} />
+      <Route path="/chat">
+        <Route index element={<Chat />} />
+        <Route path=":id" element={<Chat />} />
       </Route>
     </Routes>
   );
