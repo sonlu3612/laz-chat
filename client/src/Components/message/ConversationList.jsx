@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import SettingIcon from "../../assets/icons/SettingIcon";
 import SearchBox from "../SearchBox";
 import ConversationItem from "./ConversationItem";
+import ChatAddIcon from "../../assets/icons/ChatAddIcon";
 
 const ConversationList = () => {
   const { id } = useParams();
@@ -71,6 +72,13 @@ const ConversationList = () => {
   return (
     <div className="w-full h-full bg-light-surface rounded-2xl flex flex-col">
       <p className="pt-3 px-4 text-2xl">Laz Chat</p>
+
+      <div className="pt-3 px-4">
+        <button className="px-6 py-2 flex bg-light-primary-container rounded-2xl hover:cursor-pointer">
+          <ChatAddIcon className="w-6 h-6 fill-light-on-primary-container" />
+          <p className="pl-2 text-light-on-primary-container">New Channel</p>
+        </button>
+      </div>
 
       <div className="pt-3 pb-3 px-4">
         <SearchBox />
