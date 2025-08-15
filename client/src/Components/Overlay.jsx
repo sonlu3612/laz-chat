@@ -1,22 +1,28 @@
-const Overlay = ({ children, isVisible }) => {
-  if (!isVisible) return null;
+const Overlay = ({ children, isVisible, onClose }) => {
+  if (!isVisible) {
+    return null;
+  }
+
+  const handleOverlayClick = () => {
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const handleContentClick = (e) => {
+    e.stopPropagation();
+  };
 
   return (
     <div
+      className="fixed top-0 left-0 w-full h-full flex justify-center items-center"
       style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
         zIndex: 999,
         backgroundColor: "rgba(0, 0, 0, 0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
       }}
+      onClick={handleOverlayClick}
     >
-      {children}
+      <div onClick={handleContentClick}>{children}</div>
     </div>
   );
 };

@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-light-primary: rgb(54 97 142);
+  /* --color-light-primary: rgb(54 97 142); */
+  --color-light-primary: rgb(11 87 208);
   --color-light-surface-tint: rgb(54 97 142);
   --color-light-on-primary: rgb(255 255 255);
-  --color-light-primary-container: rgb(210 228 255);
+  /* --color-light-primary-container: rgb(210 228 255); */
+  --color-light-primary-container: rgb(179 215 239);
   --color-light-on-primary-container: rgb(26 73 117);
   --color-light-secondary: rgb(83 95 112);
   --color-light-on-secondary: rgb(255 255 255);

@@ -6,7 +6,7 @@ import SearchBox from "../SearchBox";
 import ConversationItem from "./ConversationItem";
 import ChatAddIcon from "../../assets/icons/ChatAddIcon";
 
-const ConversationList = () => {
+const ConversationList = ({onNewChannelClick}) => {
   const { id } = useParams();
 
   const mockConversationList = [
@@ -74,7 +74,7 @@ const ConversationList = () => {
       <p className="pt-3 px-4 text-2xl">Laz Chat</p>
 
       <div className="pt-3 px-4">
-        <button className="px-6 py-2 flex bg-light-primary-container rounded-2xl hover:cursor-pointer">
+        <button className="px-6 py-2 flex bg-light-primary-container rounded-2xl hover:cursor-pointer" onClick={onNewChannelClick}>
           <ChatAddIcon className="w-6 h-6 fill-light-on-primary-container" />
           <p className="pl-2 text-light-on-primary-container">New Channel</p>
         </button>
