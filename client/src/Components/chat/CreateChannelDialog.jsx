@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import CloseIcon from "../../assets/icons/CloseIcon";
+
 const CreateChannelDialog = ({ onClose }) => {
   const [channelName, setChannelName] = useState("");
   const MAX_LENGTH = 128;
@@ -12,23 +14,10 @@ const CreateChannelDialog = ({ onClose }) => {
           Create new channel
         </h2>
         <button
-          className="text-light-on-surface-variant hover:bg-light-surface-dim rounded-full p-2 transition-colors"
+          className="text-light-on-surface-variant hover:bg-light-surface-dim hover:cursor-pointer rounded-full p-2 transition-colors"
           onClick={onClose}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <CloseIcon className="h-6 w-6 fill-light-on-surface" />
         </button>
       </div>
 
