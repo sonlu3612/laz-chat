@@ -148,7 +148,7 @@ const ChatWindow = () => {
           className=" hover:bg-light-secondary-container rounded-full w-12 h-full flex"
           disabled={!currentMessage.trim()}
         >
-          {currentMessage.trim() ? (
+          {currentMessage.trim() !== "" ? (
             <SendIcon className="w-6 h-6 fill-light-on-primary-container m-auto" />
           ) : (
             <p className="m-auto">🖕</p>

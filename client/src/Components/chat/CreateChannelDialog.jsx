@@ -16,10 +16,10 @@ const CreateChannelDialog = ({ onClose }) => {
     try {
       await axiosInstance
         .post("/api/Channels/create", {
-          name: channelName,
+          title: channelName,
         })
         .then((response) => {
-          if (response.status === 200) {
+          if (response.status === 201) {
             onClose();
           } else {
             setError("Error! " + response.data);
