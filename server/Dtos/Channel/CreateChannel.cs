@@ -1,6 +1,6 @@
 ﻿using server.Domain;
 
-namespace server.Dtos
+namespace server.Dtos.Channels
 {
     public class CreateChannel
     {
