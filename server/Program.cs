@@ -11,15 +11,15 @@ using server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-DotNetEnv.Env.Load();
+//DotNetEnv.Env.Load();
 
-string connectionString = $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" +
-                          $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
-                          $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
-                          $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
+//string connectionString = $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" +
+//                          $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
+//                          $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
+//                          $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseNpgsql(connectionString));
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//        options.UseNpgsql(connectionString));
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -114,30 +114,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHub<ChatHub>("/Chat");
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
 app.UseCors("reactApp");
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
