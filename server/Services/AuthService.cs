@@ -1,4 +1,3 @@
-using server.Dtos;
 using server.Domain;
 
 using System.IdentityModel.Tokens.Jwt;
@@ -8,23 +7,16 @@ using Google.Apis.Auth;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
+using server.Dtos.Auth;
 
 namespace server.Services;
 
-public class  AuthService : IAuthService
+public class  AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration, IMapper mapper) : IAuthService
 {
-    public readonly UserManager<AppUser> _userManager;
-    public readonly SignInManager<AppUser> _signInManager;
-    public readonly IConfiguration _configuration;
-    public readonly IMapper _mapper;
-
-    public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration, IMapper mapper)
-    {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _configuration = configuration;
-        _mapper = mapper;
-    }
+    public readonly UserManager<AppUser> _userManager = userManager;
+    public readonly SignInManager<AppUser> _signInManager = signInManager;
+    public readonly IConfiguration _configuration = configuration;
+    public readonly IMapper _mapper = mapper;
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
     {
