@@ -1,22 +1,16 @@
 ﻿using server.Domain;
-using server.Dtos;
 using server.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using server.Dtos.Channels;
 
 namespace server.Services
 {
-    public class ChannelService : IChannelService
+    public class ChannelService(ApplicationDbContext context, IMapper mapper) : IChannelService
     {
-        public readonly ApplicationDbContext _context;
-        public readonly IMapper _mapper;
+        public readonly ApplicationDbContext _context = context;
+        public readonly IMapper _mapper = mapper;
 
-        public ChannelService(ApplicationDbContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
-     
         public async Task<Channel> CreateChannelAsync(CreateChannel chann)
         {
             var channel = _mapper.Map<Channel>(chann);
@@ -31,18 +25,14 @@ namespace server.Services
         public async Task<Channel> GetChannelByIdAsync(int id)
         {
             var channel = await _context.Channels.FindAsync(id);
-            if (channel == null)
-                throw new InvalidOperationException($"Channel with id {id} not found.");
-            return channel;
+            return channel ?? throw new InvalidOperationException($"Channel with ID {id} not found.");
         }
 
         public async Task<Channel> GetChannelByTitleAsync(string title)
         {
             var channel = await _context.Channels.FirstOrDefaultAsync(c => c.Title.ToLower() == title.ToLower());
 
-            if (channel == null)
-                throw new InvalidOperationException($"Channel with title '{title}' not found.");
-            return channel;
+            return channel ?? throw new InvalidOperationException($"Channel with title '{title}' not found.");
         }
 
         public async Task<IEnumerable<Channel>> GetAllChannelsAsync()
@@ -63,28 +53,6 @@ namespace server.Services
                 return false;
             _context.Channels.Remove(channel);
             return await _context.SaveChangesAsync() > 0;
-        }
-        
-        public async Task<IEnumerable<Message>> GetMessagesByChannelIdAsync(int channelId)
-        {
-            return await _context.Messages
-                .Where(m => m.ChannelId == channelId)
-                .ToListAsync();
-        }
-        public async Task<bool> DeleteMessageAsync(int messageId)
-        {
-            var message = await _context.Messages.FindAsync(messageId);
-            if (message == null)
-                return false;
-            _context.Messages.Remove(message);
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public async Task<Message> SendMessageAsync(Message message)
-        {
-            _context.Messages.Add(message);
-            await _context.SaveChangesAsync();
-            return message;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using server.Domain;
-using server.Dtos;
+using server.Dtos.Channels;
 
 namespace server.Services
 {
@@ -11,8 +11,5 @@ namespace server.Services
         Task<IEnumerable<Channel>> GetAllChannelsAsync();
         Task<bool> UpdateChannelAsync(Channel channel);
         Task<bool> DeleteChannelAsync(int id);
-        Task<IEnumerable<Message>> GetMessagesByChannelIdAsync(int channelId);
-        Task<Message> SendMessageAsync(Message message);
-        Task<bool> DeleteMessageAsync(int messageId);
     }
 }

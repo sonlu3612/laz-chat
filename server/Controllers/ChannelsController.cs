@@ -1,20 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using server.Services;
 using server.Domain;
-using server.Dtos;
+using server.Dtos.Channels;
 
 namespace server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ChannelsController : ControllerBase
+public class ChannelsController(IChannelService channelService) : ControllerBase
 {
-    private readonly IChannelService _channelService;
-
-    public ChannelsController(IChannelService channelService)
-    {
-        _channelService = channelService;
-    }
+    private readonly IChannelService _channelService = channelService;
 
     [HttpPost("create")]
     [ProducesResponseType(typeof(Channel), StatusCodes.Status201Created)]
@@ -98,39 +93,5 @@ public class ChannelsController : ControllerBase
         {
             return NotFound("Channel not found.");
         }
-    }
-
-    [HttpGet("{channelId}/messages")]
-    public async Task<IActionResult> GetMessagesByChannelId(int channelId)
-    {
-        var messages = await _channelService.GetMessagesByChannelIdAsync(channelId);
-        if (messages == null || !messages.Any())
-        {
-            return NotFound("No messages found for this channel.");
-        }
-        return Ok(messages);
-    }
-
-    [HttpPost("{channelId}/messages/send")]
-    public async Task<IActionResult> SendMessage(int channelId, [FromBody] Message message)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        message.ChannelId = channelId;
-        var sentMessage = await _channelService.SendMessageAsync(message);
-        if (sentMessage == null)
-        {
-            return BadRequest("Failed to send message.");
-        }
-        return CreatedAtAction(nameof(GetMessagesByChannelId), new { channelId = message.ChannelId }, sentMessage);
-    }
-
-    [HttpDelete("messages/{messageId}")]
-    public async Task<IActionResult> DeleteMessage(int messageId)
-    {
-        var deleted = await _channelService.DeleteMessageAsync(messageId);
-        return deleted ? NoContent() : NotFound("Message not found.");
     }
 }
