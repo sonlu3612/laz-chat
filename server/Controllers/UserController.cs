@@ -8,7 +8,7 @@ namespace server.Controllers
     public class UserController(IUserService _userService) : ControllerBase
     {
         public readonly IUserService userService = _userService;
-        [HttpGet("user/{userId}")]
+        [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserById(int userId)
         {
             var user = await userService.GetUserByIdAsync(userId);

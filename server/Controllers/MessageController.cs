@@ -4,6 +4,8 @@ using server.Services;
 
 namespace server.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]    
     public class MessageController(IMessageService MessageService) : ControllerBase
     {
         public readonly IMessageService _messageService = MessageService;
