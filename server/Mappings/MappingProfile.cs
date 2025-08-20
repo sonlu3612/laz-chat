@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using server.Domain;
-using server.Dtos;
+using server.Dtos.Auth;
+using server.Dtos.Channels;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace server.Mappings
