@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using server.Services;
-using server.Dtos;
 using server.Domain;
 using System.Threading.Tasks;
+using server.Dtos.Auth;
 
 namespace server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
 
-        public UsersController(IAuthService authService)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }
