@@ -95,6 +95,27 @@ namespace server.Data
                       .HasForeignKey(m => m.UserId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
+
+            builder.Entity<Message>(entity =>
+            {
+                entity.ToTable("messages");
+                entity.HasKey(m => m.Id);
+                entity.Property(m => m.Id).HasColumnName("id");
+                entity.Property(m => m.ChannelId).HasColumnName("channel_id");
+                entity.Property(m => m.UserId).HasColumnName("user_id");
+                entity.Property(m => m.Content).HasColumnName("content");
+                entity.Property(m => m.SentAt).HasColumnName("sent_at");
+                entity.Property(m => m.EditedAt).HasColumnName("edited_at");
+                entity.HasOne(m => m.Channel)
+                    .WithMany()
+                    .HasForeignKey(m => m.ChannelId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(m => m.User)
+                    .WithMany()
+                    .HasForeignKey(m => m.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+                
         }
     }
 }
