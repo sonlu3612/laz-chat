@@ -7,7 +7,8 @@ using server.Data;
 using server.Domain;
 using server.Hubs;
 using server.Mappings;
-using server.Services;
+using server.Services.Auth;
+using server.Services.Channels;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,15 +1,13 @@
 ﻿using server.Domain;
 using server.Data;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using server.Dtos.Message;
+using Microsoft.EntityFrameworkCore;
 
-namespace server.Services
+namespace server.Services.Messages
 {
-    public class MessageService(ApplicationDbContext context, IMapper mapper) : IMessageService
+    public class MessageService(ApplicationDbContext context) : IMessageService
     {
         private readonly ApplicationDbContext _context = context;
-        private readonly IMapper _mapper = mapper;
         public async Task<Message> DeleteMessage(DeleteMessageRequest mess)
         {
             var message = await _context.Messages

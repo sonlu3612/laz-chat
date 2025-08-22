@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using server.Services;
+using server.Services.Users;
 
 namespace server.Controllers
 {

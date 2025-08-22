@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using server.Services;
-using server.Domain;
-using System.Threading.Tasks;
 using server.Dtos.Auth;
+using server.Services.Auth;
 
 namespace server.Controllers
 {

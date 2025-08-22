@@ -2,7 +2,7 @@ using server.Domain;
 using server.Dtos.Auth;
 using System.Threading.Tasks;
 
-namespace server.Services
+namespace server.Services.Auth
 {
     public interface IAuthService
     {

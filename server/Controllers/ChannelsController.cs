@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using server.Services;
 using server.Domain;
 using server.Dtos.Channels;
+using server.Services.Channels;
 
 namespace server.Controllers;
 

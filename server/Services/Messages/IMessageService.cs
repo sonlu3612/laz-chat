@@ -1,7 +1,7 @@
 ﻿using server.Domain;
 using server.Dtos.Message;
 
-namespace server.Services
+namespace server.Services.Messages
 {
     public interface IMessageService
     {

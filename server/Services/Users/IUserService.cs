@@ -1,6 +1,6 @@
 ﻿using server.Domain;
 
-namespace server.Services
+namespace server.Services.Users
 {
     public interface IUserService
     {
@@ -9,7 +9,6 @@ namespace server.Services
         Task<AppUser> GetUserByIdAsync(int userId);
         Task<AppUser> GetUserByUsernameAsync(string username);
         Task<IEnumerable<AppUser>> GetAllUsersAsync();
-        Task<bool> ChangePasswordAsync(int userId, string oldPassword, string newPassword);
-        Task<bool> ResetPasswordAsync(int userId, string newPassword);
+        Task<bool> ChangePasswordAsync(int userId, string newPassword);
     }
 }

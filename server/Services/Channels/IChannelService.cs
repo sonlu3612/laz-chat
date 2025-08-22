@@ -1,7 +1,7 @@
 ﻿using server.Domain;
 using server.Dtos.Channels;
 
-namespace server.Services
+namespace server.Services.Channels
 {
     public interface IChannelService
     {

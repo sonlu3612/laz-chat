@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using server.Dtos.Channels;
 
-namespace server.Services
+namespace server.Services.Channels
 {
     public class ChannelService(ApplicationDbContext context, IMapper mapper) : IChannelService
     {

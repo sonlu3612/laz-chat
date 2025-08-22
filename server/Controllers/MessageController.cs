@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using server.Dtos.Message;
-using server.Services;
+using server.Services.Messages;
 
 namespace server.Controllers
 {

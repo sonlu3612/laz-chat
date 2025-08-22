@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using server.Dtos.Auth;
 
-namespace server.Services;
+namespace server.Services.Auth;
 
 public class  AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration, IMapper mapper) : IAuthService
 {
