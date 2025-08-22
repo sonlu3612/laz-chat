@@ -210,7 +210,7 @@ const Register = (props) => {
 
     try {
       await axiosInstance
-        .post("/api/users/register", {
+        .post("/api/Auth/register", {
           firstName,
           lastName,
           email,
