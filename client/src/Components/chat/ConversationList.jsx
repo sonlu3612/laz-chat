@@ -1,80 +1,22 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import SettingIcon from "../../assets/icons/SettingIcon";
 import SearchBox from "../SearchBox";
 import ConversationItem from "./ConversationItem";
 import ChatAddIcon from "../../assets/icons/ChatAddIcon";
 
-const ConversationList = ({onNewChannelClick}) => {
-  const { id } = useParams();
-
-  const mockConversationList = [
-    {
-      conversationId: "1",
-      avatar: undefined,
-      isSelected: true,
-      conversationName: "User/Conversation Name 1",
-      lastMessage: "Last Message",
-      timestamp: "12:00 PM",
-    },
-    {
-      conversationId: "2",
-      avatar: undefined,
-      isSelected: false,
-      conversationName: "User/Conversation Name 2",
-      lastMessage: "Last Message",
-      timestamp: "12:00 PM",
-    },
-    {
-      conversationId: "3",
-      avatar: undefined,
-      isSelected: false,
-      conversationName: "User/Conversation Name 3",
-      lastMessage: "Last Message",
-      timestamp: "12:00 PM",
-    },
-    {
-      conversationId: "4",
-      avatar: undefined,
-      isSelected: false,
-      conversationName: "User/Conversation Name 4",
-      lastMessage: "Last Message",
-      timestamp: "12:00 PM",
-    },
-    {
-      conversationId: "5",
-      avatar: undefined,
-      isSelected: false,
-      conversationName: "User/Conversation Name 5",
-      lastMessage: "Last Message",
-      timestamp: "12:00 PM",
-    },
-  ];
-
-  const [list, setList] = useState(mockConversationList);
-
-  useEffect(() => {
-    setList((prevList) =>
-      prevList.map((item) => {
-        const isCurrent = item.conversationId === id;
-        const wasSelected = item.isSelected;
-
-        if (isCurrent === true && wasSelected === false)
-          return { ...item, isSelected: true };
-        else if (isCurrent === false && wasSelected === true)
-          return { ...item, isSelected: false };
-        return item;
-      })
-    );
-  }, [id]);
+const ConversationList = ({ onNewChannelClick }) => {
+  const list = useSelector((state) => state.chat.channels);
 
   return (
     <div className="w-full h-full bg-light-surface rounded-2xl flex flex-col">
       <p className="pt-3 px-4 text-2xl">Laz Chat</p>
 
       <div className="pt-3 px-4">
-        <button className="px-6 py-2 flex bg-light-primary-container rounded-2xl hover:cursor-pointer" onClick={onNewChannelClick}>
+        <button
+          className="px-6 py-2 flex bg-light-primary-container rounded-2xl hover:cursor-pointer"
+          onClick={onNewChannelClick}
+        >
           <ChatAddIcon className="w-6 h-6 fill-light-on-primary-container" />
           <p className="pl-2 text-light-on-primary-container">New Channel</p>
         </button>

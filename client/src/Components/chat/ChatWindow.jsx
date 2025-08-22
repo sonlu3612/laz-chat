@@ -1,86 +1,13 @@
 import { useState } from "react";
-import React from "react";
 
 import InfoIcon from "../../assets/icons/InfoIcon";
 import SendIcon from "../../assets/icons/SendIcon";
+import { useSelector } from "react-redux";
+import { selectMessagesWithUsers } from "../../utils/selector";
 
 const ChatWindow = () => {
-  const mockMessages = [
-    {
-      id: 1,
-      nickname: "John Doe",
-      text: "Hi team, just a reminder about the adoption event this Saturday!",
-      isMe: false,
-    },
-    {
-      id: 2,
-      nickname: "",
-      text: "Got it, thanks for the reminder!",
-      isMe: true,
-    },
-    {
-      id: 3,
-      nickname: "Jane Smith",
-      text: "I've already started preparing the flyers. Does anyone need help with anything?",
-      isMe: false,
-    },
-    {
-      id: 4,
-      nickname: "",
-      text: "That's great, Jane! I'm still working on the social media posts.",
-      isMe: true,
-    },
-    {
-      id: 5,
-      nickname: "John Doe",
-      text: "I'll be setting up the registration table. We'll need some pens and clipboards.",
-      isMe: false,
-    },
-    {
-      id: 6,
-      nickname: "Jane Smith",
-      text: "I can bring those, John. I have a box of office supplies.",
-      isMe: false,
-    },
-    {
-      id: 7,
-      nickname: "",
-      text: "Perfect! Thanks, Jane. I'll make sure to mention the supplies in the checklist.",
-      isMe: true,
-    },
-    {
-      id: 8,
-      nickname: "John Doe",
-      text: "Also, remember to bring water bowls for the animals. It's going to be a warm day.",
-      isMe: false,
-    },
-    {
-      id: 9,
-      nickname: "Jane Smith",
-      text: "Good point, John. I'll add that to my list.",
-      isMe: false,
-    },
-    {
-      id: 10,
-      nickname: "",
-      text: "I'll bring some extra water bottles for the volunteers too.",
-      isMe: true,
-    },
-    {
-      id: 11,
-      nickname: "John Doe",
-      text: "Excellent! Every little bit helps.",
-      isMe: false,
-    },
-    {
-      id: 12,
-      nickname: "Jane Smith",
-      text: "Has anyone confirmed the vet's availability for the health checks?",
-      isMe: false,
-    },
-  ];
+  const messages = useSelector(selectMessagesWithUsers);
 
-  const [messages, setMessages] = useState(mockMessages);
   const [currentMessage, setCurrentMessage] = useState("");
 
   return (
