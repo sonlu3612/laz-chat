@@ -1,5 +1,5 @@
 using server.Domain;
-using server.Dtos.Auth;
+using server.Dtos.Auths;
 using System.Threading.Tasks;
 
 namespace server.Services.Auth

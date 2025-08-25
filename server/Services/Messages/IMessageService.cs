@@ -1,5 +1,5 @@
 ﻿using server.Domain;
-using server.Dtos.Message;
+using server.Dtos.Messages;
 
 namespace server.Services.Messages
 {

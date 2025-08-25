@@ -11,7 +11,7 @@ namespace server.Services.Channels
         public readonly ApplicationDbContext _context = context;
         public readonly IMapper _mapper = mapper;
 
-        public async Task<Channel> CreateChannelAsync(CreateChannel chann)
+        public async Task<Channel> CreateChannelAsync(CreateChannelRequest chann)
         {
             var channel = _mapper.Map<Channel>(chann);
             channel.CreatedAt = DateTime.UtcNow;

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace server.Dtos.Auth;
+namespace server.Dtos.Auths;
 
 public class AuthResponse
 {

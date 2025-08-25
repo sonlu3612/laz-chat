@@ -7,7 +7,7 @@ using Google.Apis.Auth;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
-using server.Dtos.Auth;
+using server.Dtos.Auths;
 
 namespace server.Services.Auth;
 

@@ -14,7 +14,7 @@ public class ChannelsController(IChannelService channelService) : ControllerBase
     [HttpPost("create")]
     [ProducesResponseType(typeof(Channel), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateChannel([FromBody] CreateChannel createChannel)
+    public async Task<IActionResult> CreateChannel([FromBody] CreateChannelRequest createChannel)
     {
         if (!ModelState.IsValid)
         {

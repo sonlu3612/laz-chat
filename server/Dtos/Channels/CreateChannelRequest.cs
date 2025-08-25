@@ -2,7 +2,7 @@
 
 namespace server.Dtos.Channels
 {
-    public class CreateChannel
+    public class CreateChannelRequest
     {
         public string Title { get; set; } = string.Empty;
         public int CreatorId { get; set; }

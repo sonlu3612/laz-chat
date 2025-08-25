@@ -5,7 +5,7 @@ namespace server.Services.Channels
 {
     public interface IChannelService
     {
-        Task<Channel> CreateChannelAsync(CreateChannel channel);
+        Task<Channel> CreateChannelAsync(CreateChannelRequest channel);
         Task<Channel> GetChannelByIdAsync(int id);
         Task<Channel> GetChannelByTitleAsync(string title);
         Task<IEnumerable<Channel>> GetAllChannelsAsync();

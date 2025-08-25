@@ -1,6 +1,6 @@
 ﻿using server.Domain;
 using server.Data;
-using server.Dtos.Message;
+using server.Dtos.Messages;
 using Microsoft.EntityFrameworkCore;
 
 namespace server.Services.Messages

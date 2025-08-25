@@ -1,4 +1,4 @@
-﻿namespace server.Dtos.Message
+﻿namespace server.Dtos.Messages
 {
     public class UpdateMessageRequest
     {
