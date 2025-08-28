@@ -27,7 +27,7 @@ function App() {
       <Route
         path="/login"
         element={
-          <ProtectedRoute user={!user} redirect="/">
+          <ProtectedRoute user={!user} redirect="/chat">
             <Login />
           </ProtectedRoute>
         }
@@ -35,7 +35,7 @@ function App() {
       <Route
         path="/register"
         element={
-          <ProtectedRoute user={!user} redirect="/">
+          <ProtectedRoute user={!user} redirect="/chat">
             <Register />
           </ProtectedRoute>
         }
