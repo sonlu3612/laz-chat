@@ -3,10 +3,11 @@ import { createSelector } from "@reduxjs/toolkit";
 const selectMessages = (state) => state.chat.messages;
 const selectUsers = (state) => state.chat.users;
 const selectCurrentChannelId = (state) => state.chat.currentChannelId;
+const selectMyUser = (state) => state.auth.user;
 
 export const selectMessagesWithUsers = createSelector(
-  [selectMessages, selectUsers, selectCurrentChannelId],
-  (messages, users, currentChannelId) => {
+  [selectMessages, selectUsers, selectCurrentChannelId, selectMyUser],
+  (messages, users, currentChannelId, myUser) => {
     if (
       messages == undefined ||
       users == undefined ||
@@ -22,14 +23,16 @@ export const selectMessagesWithUsers = createSelector(
     return currentMessagesById.map((msg) => {
       const user = users[msg.id];
 
-      const res = {
-        id: msg.id,
-        text: msg.content,
-        isMe: false,
-        nickname: user.firstName + " " + user.lastName,
-      };
+      const isMe = msg.userId == myUser.id;
 
-      return res;
+      return isMe
+        ? { id: msg.id, text: msg.content, isMe: true }
+        : {
+            id: msg.id,
+            text: msg.content,
+            isMe: false,
+            nickname: user.firstName + " " + user.lastName,
+          };
     });
   }
 );

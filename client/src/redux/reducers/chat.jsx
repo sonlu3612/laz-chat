@@ -84,6 +84,42 @@ export const fetchMessagesWithUsers = createAsyncThunk(
   }
 );
 
+export const fetchUsersForMessages = createAsyncThunk(
+  "chat/fetchUsersForMessages",
+  async ({ message, channelId }, { rejectWithValue, getState }) => {
+    try {
+      const users = getState().chat.users;
+
+      const convertedMessages = getConvertedMessages(message, channelId);
+      const unExistedUserIds = [];
+
+      convertedMessages.messagesByChannelId.forEach((msg) => {
+        const user = users[msg.userId];
+
+        if (user == undefined || user == null)
+          unExistedUserIds.push(msg.userId);
+      });
+
+      const usersData = [];
+
+      for (let i = 0; i < unExistedUserIds.length; i++) {
+        const uId = unExistedUserIds[i];
+        const { data: userData } = await axios.get(`api/user/${uId}`);
+        usersData.push(userData);
+      }
+
+      const convertedUsers = getConvertedUsers(usersData);
+
+      return {
+        convertedMessages,
+        convertedUsers,
+      };
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   currentChannelId: "",
 
@@ -129,9 +165,22 @@ const chatSlice = createSlice({
 
       state.users = convertedUsers;
     });
+
+    builder.addCase(fetchUsersForMessages.fulfilled, (state, action) => {
+      const { convertedMessages, convertedUsers } = action.payload;
+      const { channelId, messagesByChannelId } = convertedMessages;
+
+      if (state.messages[channelId] != undefined) {
+        state.messages[channelId].push(...messagesByChannelId);
+      } else {
+        state.messages[channelId] = messagesByChannelId;
+      }
+
+      state.users = convertedUsers;
+    });
   },
 });
 
-export const { setCurrentChannelId } = chatSlice.actions;
+export const { setCurrentChannelId, addNewMessage } = chatSlice.actions;
 
 export default chatSlice.reducer;

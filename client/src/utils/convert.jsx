@@ -36,4 +36,13 @@ const getConvertedUsers = (users) => {
   return res;
 };
 
-export { getConvertedChatList, getConvertedMessages, getConvertedUsers };
+const getConvertedMyUser = (user) => {
+  return { id: user.id, firstName: user.firstName, lastName: user.lastName };
+};
+
+export {
+  getConvertedChatList,
+  getConvertedMessages,
+  getConvertedUsers,
+  getConvertedMyUser,
+};

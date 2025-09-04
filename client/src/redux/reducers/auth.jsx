@@ -1,12 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
+import { getConvertedMyUser } from "../../utils/convert";
 
 export const verifyToken = createAsyncThunk(
   "auth/verifyToken",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get("/api/users/profile"); //Test
-      return data;
+      // const { data } = await axios.get("/api/users/profile"); //Test
+      const { data } = await axios.get(`api/user/${1}`); // Test
+      return getConvertedMyUser(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

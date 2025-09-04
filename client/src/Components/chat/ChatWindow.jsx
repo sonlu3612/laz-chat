@@ -5,7 +5,7 @@ import SendIcon from "../../assets/icons/SendIcon";
 import { useSelector } from "react-redux";
 import { selectMessagesWithUsers } from "../../utils/selector";
 
-const ChatWindow = () => {
+const ChatWindow = ({ sendMessage }) => {
   const messages = useSelector(selectMessagesWithUsers);
 
   const [currentMessage, setCurrentMessage] = useState("");
@@ -36,7 +36,10 @@ const ChatWindow = () => {
       <div className="flex-1 p-4 overflow-y-auto">
         {messages.map((msg) =>
           msg.isMe ? (
-            <div className="flex items-start space-x-3 mb-4 justify-end">
+            <div
+              key={msg.id}
+              className="flex items-start space-x-3 mb-4 justify-end"
+            >
               <div className="flex-1 text-right">
                 <div className="flex items-center space-x-2 justify-end">
                   <span className="font-semibold text-light-on-surface"></span>
@@ -45,7 +48,7 @@ const ChatWindow = () => {
               </div>
             </div>
           ) : (
-            <div className="flex items-start space-x-3 mb-4">
+            <div key={msg.id} className="flex items-start space-x-3 mb-4">
               <img alt="Profile" className="w-10 h-10 rounded-full" />
               <div className="flex-1">
                 <div className="flex items-center space-x-2">
@@ -72,14 +75,14 @@ const ChatWindow = () => {
         />
 
         <button
-          className=" hover:bg-light-secondary-container rounded-full w-12 h-full flex"
+          className=" bg-light-primary-container rounded-full w-12 h-full flex disabled:opacity-50"
           disabled={!currentMessage.trim()}
+          onClick={() => {
+            sendMessage(currentMessage);
+            setCurrentMessage("");
+          }}
         >
-          {currentMessage.trim() !== "" ? (
-            <SendIcon className="w-6 h-6 fill-light-on-primary-container m-auto" />
-          ) : (
-            <p className="m-auto">🖕</p>
-          )}
+          <SendIcon className="w-6 h-6 fill-light-on-primary-container m-auto" />
         </button>
       </div>
     </div>
