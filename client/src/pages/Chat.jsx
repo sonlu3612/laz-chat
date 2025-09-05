@@ -14,13 +14,20 @@ import {
 } from "../redux/reducers/chat";
 
 const Chat = () => {
+  // Redux
   const dispatch = useDispatch();
   const myUser = useSelector((state) => state.auth.user);
+
+  // Param
   const { id } = useParams();
+
+  // useState
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const [connection, setConnection] = useState(null);
+
   let mockId = 1;
 
+  // toggleOverlay
   const toggleOverlayOn = () => {
     setOverlayVisible(true);
   };
@@ -29,6 +36,7 @@ const Chat = () => {
     setOverlayVisible(false);
   };
 
+  // useEffect
   useEffect(() => {
     dispatch(fetchAllChannels());
   }, [dispatch]);
@@ -112,6 +120,7 @@ const Chat = () => {
     }
   }, [connection, id, myUser, dispatch]);
 
+  // sendMessage
   const sendMessage = (message) => {
     connection.invoke(
       "SendMessage",
