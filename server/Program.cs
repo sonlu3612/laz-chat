@@ -53,6 +53,8 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IChannelService, ChannelService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAuthentication(options =>
 {
@@ -109,12 +111,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("reactApp");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHub<ChatHub>("/Chat");
-
-app.UseCors("reactApp");
 
 app.Run();
 
