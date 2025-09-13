@@ -11,6 +11,7 @@ const Home = React.lazy(() => import("./pages/Home"));
 const Login = React.lazy(() => import("./pages/Loginpage"));
 const Register = React.lazy(() => import("./pages/Register"));
 const Chat = React.lazy(() => import("./pages/Chat"));
+const Auth = React.lazy(() => import("./pages/Auth"));
 
 function App() {
   const { user } = useSelector((state) => state.auth);
@@ -44,6 +45,7 @@ function App() {
         <Route index element={<Chat />} />
         <Route path=":id" element={<Chat />} />
       </Route>
+      <Route path="/auth" element={<Auth />} />
     </Routes>
   );
 }

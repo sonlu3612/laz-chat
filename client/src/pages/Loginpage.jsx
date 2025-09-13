@@ -1,28 +1,17 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
 
 const Login = () => {
-  const navigate = useNavigate();
-
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [emailError, setEmailError] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState("");
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setEmailError("");
-    setPasswordError("");
-
-    if (!email) {
-      setEmailError("Email is required.");
-      return;
-    }
-    if (!password) {
-      setPasswordError("Password is required.");
-      return;
-    }
-  }
+  const {
+    email,
+    password,
+    setEmail,
+    setPassword,
+    emailError,
+    passwordError,
+    postMessage,
+    handleLogin,
+    navigateToRegister,
+  } = useLogin();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white text-black px-4">
@@ -39,12 +28,22 @@ const Login = () => {
               id="email"
               className="w-full p-3 bg-white border border-gray-700 rounded-lg text-gray focus:outline-none focus:ring-2 focus:ring-white"
               placeholder="you@example.com"
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
               required
             />
+            {emailError && (
+              <span className="text-light-error">{emailError}</span>
+            )}
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium mb-1"
+            >
               Mật khẩu
             </label>
             <input
@@ -52,20 +51,34 @@ const Login = () => {
               id="password"
               className="w-full p-3 bg-white border border-gray-700 rounded-lg text-gray focus:outline-none focus:ring-2 focus:ring-white"
               placeholder="********"
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
               required
             />
+            {passwordError && (
+              <span className="text-light-error">{passwordError}</span>
+            )}
           </div>
 
           <button
             type="submit"
             className="w-full bg-black text-white font-semibold py-3 rounded-lg hover:bg-gray-200 transition cursor-pointer"
+            onClick={handleLogin}
           >
             Đăng nhập
           </button>
         </form>
 
         <p className="text-sm text-gray-400 text-center mt-6">
-          Dont have a account? <span className="underline cursor-pointer " onClick={() => navigate('/register')}>Register</span>
+          Dont have a account?{" "}
+          <span
+            className="underline cursor-pointer "
+            onClick={() => navigateToRegister()}
+          >
+            Register
+          </span>
         </p>
       </div>
     </div>

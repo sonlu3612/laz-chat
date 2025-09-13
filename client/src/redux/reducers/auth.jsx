@@ -7,8 +7,8 @@ export const verifyToken = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       // const { data } = await axios.get("/api/users/profile"); //Test
-      const { data } = await axios.get(`api/user/${1}`); // Test
-      return getConvertedMyUser(data);
+      // const { data } = await axios.get(`api/user/${1}`); // Test
+      // return getConvertedMyUser(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -24,7 +24,11 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setMyUser: (state, action) => {
+      state.user = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(verifyToken.pending, (state) => {
@@ -40,5 +44,7 @@ const authSlice = createSlice({
       });
   },
 });
+
+export const { setMyUser } = authSlice.actions;
 
 export default authSlice.reducer;
