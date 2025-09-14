@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
+import { validateEmail, validatePassword } from "../utils/validation";
 import axiosInstance from "../utils/axios";
 import { setMyUser } from "../redux/reducers/auth";
 
@@ -25,33 +26,51 @@ const useLogin = () => {
   });
 
   const { email, password } = field;
-  const { emailError, passwordError } = error;
+  const { email: emailError, password: passwordError } = error;
 
-  const setEmail = (value) => {
-    setField({ ...field, email: value });
-    setError({ ...error, email: "" });
+  const handleFieldChange = (fieldName, value) => {
+    setField((prev) => ({ ...prev, [fieldName]: value }));
+
+    // If there was an error for this field, clear it
+    if (error[fieldName]) {
+      setError((prev) => ({ ...prev, [fieldName]: "" }));
+    }
+
+    setPostMessage((prev) => (prev.text !== "" ? { text: "" } : prev));
   };
 
-  const setPassword = (value) => {
-    setField({ ...field, password: value });
-    setError({ ...error, password: "" });
+  const validateField = () => {
+    const emailErr = validateEmail(email);
+    const passwordErr = validatePassword(password);
+
+    const isValid = emailErr == "" && passwordErr == "";
+
+    if (emailErr != "") {
+      handleFieldChange("email", "");
+    }
+
+    if (passwordErr != "") {
+      handleFieldChange("password", "");
+    }
+
+    if (!isValid) {
+      setError({
+        email: emailErr,
+        password: passwordErr,
+      });
+    }
+
+    return isValid;
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setEmailError("");
-    setPasswordError("");
 
-    if (!email) {
-      setEmailError("Email is required.");
+    const isValid = validateField();
+
+    if (!isValid) {
       return;
     }
-    if (!password) {
-      setPasswordError("Password is required.");
-      return;
-    }
-
-    // NEED TO ADD VALIDATION FOR EMAIL AND PASSWORD
 
     try {
       setPostMessage({
@@ -85,13 +104,19 @@ const useLogin = () => {
   };
 
   return {
+    // Field
     email,
     password,
-    setEmail,
-    setPassword,
+
+    // Error
     emailError,
     passwordError,
+
+    //Message
     postMessage,
+
+    // Handle
+    handleFieldChange,
     handleLogin,
     navigateToRegister,
   };

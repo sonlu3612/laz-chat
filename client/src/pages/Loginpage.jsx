@@ -4,14 +4,14 @@ const Login = () => {
   const {
     email,
     password,
-    setEmail,
-    setPassword,
     emailError,
     passwordError,
     postMessage,
+    handleFieldChange,
     handleLogin,
     navigateToRegister,
   } = useLogin();
+  // Require post Message
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white text-black px-4">
@@ -30,9 +30,8 @@ const Login = () => {
               placeholder="you@example.com"
               value={email}
               onChange={(event) => {
-                setEmail(event.target.value);
+                handleFieldChange("email", event.target.value);
               }}
-              required
             />
             {emailError && (
               <span className="text-light-error">{emailError}</span>
@@ -53,9 +52,8 @@ const Login = () => {
               placeholder="********"
               value={password}
               onChange={(event) => {
-                setPassword(event.target.value);
+                handleFieldChange("password", event.target.value);
               }}
-              required
             />
             {passwordError && (
               <span className="text-light-error">{passwordError}</span>
