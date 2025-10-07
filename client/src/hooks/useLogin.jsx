@@ -45,6 +45,7 @@ const useLogin = () => {
 
     const isValid = emailErr == "" && passwordErr == "";
 
+    // TODO: remove this later
     if (emailErr != "") {
       handleFieldChange("email", "");
     }
@@ -84,10 +85,11 @@ const useLogin = () => {
       });
 
       if (response.status === 200) {
-        const { token, firstName, lastName } = response.data;
+        const { token, firstName, lastName, email, phoneNumber } =
+          response.data;
 
         localStorage.setItem("token", token);
-        dispatch(setMyUser({ firstName, lastName }));
+        dispatch(setMyUser({ firstName, lastName, email, phoneNumber }));
 
         navigate("/auth");
       }

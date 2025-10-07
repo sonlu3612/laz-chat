@@ -24,6 +24,7 @@ const Login = () => {
               Email
             </label>
             <input
+              aria-label="emailInput"
               type="email"
               id="email"
               className="w-full p-3 bg-white border border-gray-700 rounded-lg text-gray focus:outline-none focus:ring-2 focus:ring-white"
@@ -46,6 +47,7 @@ const Login = () => {
               Mật khẩu
             </label>
             <input
+              aria-label="passwordInput"
               type="password"
               id="password"
               className="w-full p-3 bg-white border border-gray-700 rounded-lg text-gray focus:outline-none focus:ring-2 focus:ring-white"
@@ -61,6 +63,7 @@ const Login = () => {
           </div>
 
           <button
+            aria-label="loginBtn"
             type="submit"
             className="w-full bg-black text-white font-semibold py-3 rounded-lg hover:bg-gray-200 transition cursor-pointer"
             onClick={handleLogin}
