@@ -43,7 +43,7 @@ function App() {
       />
       <Route path="/chat">
         <Route index element={<Chat />} />
-        <Route path=":id" element={<Chat />} />
+        <Route path=":channelId" element={<Chat />} />
       </Route>
       <Route path="/auth" element={<Auth />} />
     </Routes>

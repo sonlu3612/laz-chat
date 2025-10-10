@@ -7,8 +7,9 @@ import {
   setCurrentChannelId,
   fetchUsersForMessages,
 } from "../redux/reducers/chat";
+import { useParams } from "react-router-dom";
 
-const useChat = (channelId) => {
+const useChat = () => {
   // Redux
   const dispatch = useDispatch();
   const myUser = useSelector((state) => state.auth.user);
@@ -16,17 +17,11 @@ const useChat = (channelId) => {
   // State
   const [connection, setConnection] = useState(null);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
-
-  let mockId = 1;
+  const { channelId } = useParams();
 
   // Toggle overlay handlers
-  const toggleOverlayOn = () => {
-    setOverlayVisible(true);
-  };
-
-  const toggleOverlayOff = () => {
-    setOverlayVisible(false);
-  };
+  const toggleOverlayOn = () => setOverlayVisible(true);
+  const toggleOverlayOff = () => setOverlayVisible(false);
 
   // Fetch all channels on mount
   useEffect(() => {
@@ -88,14 +83,13 @@ const useChat = (channelId) => {
               message: [
                 {
                   id: mockId,
-                  userId: 1, // Test
+                  userId: user.id,
                   content: message,
                 },
               ],
               channelId: channelId,
             })
           );
-          mockId++;
         });
 
         connection.on("UserTyping", (userName) => {
@@ -133,9 +127,12 @@ const useChat = (channelId) => {
   };
 
   return {
+    // Overlay
     isOverlayVisible,
     toggleOverlayOn,
     toggleOverlayOff,
+
+    // Handler
     sendMessage,
   };
 };

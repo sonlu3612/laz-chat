@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import ConversationList from "../Components/chat/ConversationList";
 import ChatWindow from "../Components/chat/ChatWindow";
 import CreateChannelDialog from "../Components/chat/CreateChannelDialog";
@@ -6,13 +5,8 @@ import Overlay from "../Components/Overlay";
 import useChat from "../hooks/useChat";
 
 const Chat = () => {
-  // Get channel id from URL params
-
-  // TODO: extract to hook
-  const { id } = useParams();
-
   const { isOverlayVisible, toggleOverlayOn, toggleOverlayOff, sendMessage } =
-    useChat(id);
+    useChat();
 
   return (
     <div className="flex w-screen h-screen bg-light-surface-container-highest">
