@@ -2,6 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 import { getConvertedMyUser } from "../../utils/convert";
 
+/**
+ * Verify token and return the current user when successful.
+ * @returns {Promise<MyUser>} when fulfilled
+ */
+
 export const verifyToken = createAsyncThunk(
   "auth/verifyToken",
   async (_, { rejectWithValue }) => {
@@ -15,7 +20,16 @@ export const verifyToken = createAsyncThunk(
   }
 );
 
+/** @type {{ user: MyUser | null, loading: boolean, error: any }} */
 const initialState = {
+  /**
+   * @typedef {Object} MyUser
+   * @property {number|string} id - Unique identifier for the user
+   * @property {string} firstName
+   * @property {string} lastName
+   */
+
+  /** @type {MyUser | null} */
   user: null,
   loading: true,
   error: null,

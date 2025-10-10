@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 import {
-  getConvertedChatList as getConvertedChannels,
+  getConvertedChannels,
   getConvertedMessages,
   getConvertedUsers,
 } from "../../utils/convert";
@@ -123,14 +123,39 @@ export const fetchUsersForMessages = createAsyncThunk(
 const initialState = {
   currentChannelId: "",
 
-  // channels: {[{channelId, channelName, ...}]}
+  /**
+   * @typedef {Object} Channel
+   * @property {number|string} conversationId
+   * @property {string} conversationName
+   * @property {string} timestamp
+   * @property {boolean} isSelected
+   * @property {string} lastMessage
+   * @property {string|undefined} avatar
+   */
+
+  /** @type {Channel[]} */
   channels: [],
 
-  // messages: {channelId: [{messageId, userId, message, ...}]}
-  messages: [],
+  /**
+   * @typedef {Object} Message
+   * @property {string|number} id
+   * @property {string|number} userId
+   * @property {string} content
+   * @property {string} sentAt
+   */
 
-  // users: [userId: [{userId, userName, ...}]]
-  users: [],
+  /** @type {Object.<string, Message[]>} */
+  messages: {},
+
+  /**
+   * @typedef {Object} UserInfo
+   * @property {string} firstName
+   * @property {string} lastName
+   * @property {string} avatar // TODO: add avatar later
+   */
+
+  /** @type {Object.<string | number, UserInfo>} */
+  users: {},
 };
 
 const chatSlice = createSlice({
@@ -158,6 +183,7 @@ const chatSlice = createSlice({
       const { channelId, messagesByChannelId } = convertedMessages;
 
       if (state.messages[channelId] != undefined) {
+        // TODO: Check if it rendered
         state.messages[channelId].push(...messagesByChannelId);
       } else {
         state.messages[channelId] = messagesByChannelId;

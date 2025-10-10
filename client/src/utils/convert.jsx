@@ -1,4 +1,4 @@
-const getConvertedChatList = (chatList, paramId) => {
+const getConvertedChannels = (chatList, paramId) => {
   return chatList.map((chat) => {
     const { id, title, updatedAt } = chat;
     return {
@@ -41,7 +41,7 @@ const getConvertedMyUser = (user) => {
 };
 
 export {
-  getConvertedChatList,
+  getConvertedChannels,
   getConvertedMessages,
   getConvertedUsers,
   getConvertedMyUser,
