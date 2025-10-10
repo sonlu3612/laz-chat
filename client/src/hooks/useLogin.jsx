@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -6,10 +6,17 @@ import { validateEmail, validatePassword } from "../utils/validation";
 import axiosInstance from "../utils/axios";
 import { setMyUser } from "../redux/reducers/auth";
 
-const useLogin = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+const useLogin = (deps = {}) => {
+  // Deps
+  const dispatch = deps.dispatch ?? useDispatch();
+  const navigate = deps.navigate ?? useNavigate();
+  const axios = deps.axios ?? axiosInstance;
 
+  // To avoid setting state on unmounted component
+  const mountedRef = useRef(true);
+  useEffect(() => () => (mountedRef.current = false), []);
+
+  // State
   const [field, setField] = useState({
     email: "",
     password: "",
@@ -20,34 +27,33 @@ const useLogin = () => {
     password: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [postMessage, setPostMessage] = useState({
     isSuccess: false,
     text: "",
   });
 
-  const { email, password } = field;
-  const { email: emailError, password: passwordError } = error;
+  // Handlers
+  const handleFieldChange = useCallback(
+    (fieldName, value) => {
+      setField((prev) => ({ ...prev, [fieldName]: value }));
 
-  const handleFieldChange = (fieldName, value) => {
-    setField((prev) => ({ ...prev, [fieldName]: value }));
+      // If there was an error for this field, clear it
+      if (error[fieldName]) {
+        setError((prev) => ({ ...prev, [fieldName]: "" }));
+      }
 
-    // If there was an error for this field, clear it
-    if (error[fieldName]) {
-      setError((prev) => ({ ...prev, [fieldName]: "" }));
-    }
+      if (postMessage.text) setPostMessage({ isSuccess: false, text: "" });
+    },
+    [error, postMessage.text]
+  );
 
-    setPostMessage((prev) => (prev.text !== "" ? { text: "" } : prev));
-  };
+  const validateField = useCallback(() => {
+    const emailErr = validateEmail(field.email);
+    const passwordErr = validatePassword(field.password);
 
-  const validateField = () => {
-    const emailErr = validateEmail(email);
-    const passwordErr = validatePassword(password);
-
-    const isValid = emailErr == "" && passwordErr == "";
-
-    if (passwordErr != "") {
-      handleFieldChange("password", "");
-    }
+    const isValid = emailErr === "" && passwordErr === "";
 
     if (!isValid) {
       setError({
@@ -57,62 +63,74 @@ const useLogin = () => {
     }
 
     return isValid;
-  };
+  }, [field.email, field.password]);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = useCallback(
+    async (e) => {
+      e?.preventDefault();
+      if (!validateField()) return;
 
-    const isValid = validateField();
+      setIsLoading(true);
+      setPostMessage({ isSuccess: false, text: "Sending..." });
 
-    if (!isValid) {
-      return;
-    }
+      const controller = new AbortController();
+      try {
+        const response = await axios.post(
+          "/api/Auth/Login",
+          {
+            email: field.email,
+            password: field.password,
+          },
+          { signal: controller.signal }
+        );
 
-    try {
-      setPostMessage({
-        isSuccess: true,
-        text: "Sending...",
-      });
+        if (!mountedRef.current) return;
 
-      const response = await axiosInstance.post("/api/Auth/Login", {
-        email,
-        password,
-      });
+        if (response.status === 200) {
+          const { token, firstName, lastName, email, phoneNumber } =
+            response.data;
 
-      if (response.status === 200) {
-        const { token, firstName, lastName, email, phoneNumber } =
-          response.data;
-
-        localStorage.setItem("token", token);
-        dispatch(setMyUser({ firstName, lastName, email, phoneNumber }));
-
-        navigate("/auth");
+          localStorage.setItem("token", token);
+          dispatch(setMyUser({ firstName, lastName, email, phoneNumber }));
+          setPostMessage({ isSuccess: true, text: "Logged in" });
+          navigate("/auth");
+        } else {
+          setPostMessage({ isSuccess: false, text: "Unexpected response" });
+        }
+      } catch (err) {
+        if (err.name === "CanceledError" || err.name === "AbortError") return;
+        if (!mountedRef.current) return;
+        setPostMessage({
+          isSuccess: false,
+          text: "Error! " + (err.response?.data || err.message),
+        });
+      } finally {
+        if (mountedRef.current) setIsLoading(false);
       }
-    } catch (err) {
-      setPostMessage({
-        isSuccess: false,
-        text: "Error! " + (err.response ? err.response.data : err.message),
-      });
-    }
-  };
 
-  const navigateToRegister = () => {
-    navigate("/register");
-  };
+      return () => controller.abort();
+    },
+    [field.email, field.password, validateField, axios, dispatch, navigate]
+  );
+
+  const navigateToRegister = useCallback(
+    () => navigate("/register"),
+    [navigate]
+  );
 
   return {
     // Field
-    email,
-    password,
+    ...field,
 
     // Error
-    emailError,
-    passwordError,
+    emailError: error.email,
+    passwordError: error.password,
 
-    //Message
+    // Message & status
     postMessage,
+    isLoading,
 
-    // Handle
+    // Handlers
     handleFieldChange,
     handleLogin,
     navigateToRegister,
