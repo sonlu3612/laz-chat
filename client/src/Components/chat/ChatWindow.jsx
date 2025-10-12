@@ -5,10 +5,17 @@ import SendIcon from "../../assets/icons/SendIcon";
 import { useSelector } from "react-redux";
 import { selectMessagesWithUsers } from "../../utils/selector";
 
-const ChatWindow = ({ sendMessage }) => {
+const ChatWindow = ({ sendMessage, onToggleDetails }) => {
   const messages = useSelector(selectMessagesWithUsers);
 
   const [currentMessage, setCurrentMessage] = useState("");
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+
+  const handleToggleDetails = () => {
+    setIsDetailsOpen((prev) => !prev);
+
+    onToggleDetails?.(isDetailsOpen);
+  };
 
   return (
     <div className="w-full h-full bg-light-surface flex flex-col rounded-2xl">
@@ -26,8 +33,22 @@ const ChatWindow = ({ sendMessage }) => {
         </div>
 
         <div className="mr-0 flex my-auto">
-          <button className="w-10 h-10 rounded-full hover:bg-light-primary-container">
-            <InfoIcon className="w-6 h-6 m-auto  hover:fill-light-on-primary-container hover:w-6.5 hover:h-6.5 transition-all" />
+          <button
+            onClick={handleToggleDetails}
+            className={`w-10 h-10 flex cursor-pointer justify-center items-center rounded-full transition-all ${
+              isDetailsOpen
+                ? "bg-light-primary-container text-light-on-primary-container"
+                : "hover:bg-light-secondary-container"
+            }`}
+            aria-label={isDetailsOpen ? "Close details" : "Open details"}
+          >
+            <InfoIcon
+              className={`p-1.75 transition-all hover:p-1.5 ${
+                isDetailsOpen
+                  ? "fill-light-on-primary-container"
+                  : "hover:fill-light-on-secondary-container"
+              }`}
+            />
           </button>
         </div>
       </div>
