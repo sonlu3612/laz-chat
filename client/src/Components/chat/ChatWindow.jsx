@@ -5,18 +5,10 @@ import SendIcon from "../../assets/icons/SendIcon";
 import { useSelector } from "react-redux";
 import { selectMessagesWithUsers } from "../../utils/selector";
 
-const ChatWindow = ({ sendMessage, onToggleDetails }) => {
+const ChatWindow = ({ sendMessage, onToggleDetail, isDetailsOpen }) => {
   const messages = useSelector(selectMessagesWithUsers);
 
   const [currentMessage, setCurrentMessage] = useState("");
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-
-  const handleToggleDetails = () => {
-    setIsDetailsOpen((prev) => !prev);
-
-    onToggleDetails?.(isDetailsOpen);
-  };
-
   return (
     <div className="w-full h-full bg-light-surface flex flex-col rounded-2xl">
       {/* Header */}
@@ -34,7 +26,7 @@ const ChatWindow = ({ sendMessage, onToggleDetails }) => {
 
         <div className="mr-0 flex my-auto">
           <button
-            onClick={handleToggleDetails}
+            onClick={() => onToggleDetail()}
             className={`w-10 h-10 flex cursor-pointer justify-center items-center rounded-full transition-all ${
               isDetailsOpen
                 ? "bg-light-primary-container text-light-on-primary-container"
