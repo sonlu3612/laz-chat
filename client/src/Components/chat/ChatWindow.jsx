@@ -5,13 +5,27 @@ import SendIcon from "../../assets/icons/SendIcon";
 import { useSelector } from "react-redux";
 import { selectMessagesWithUsers } from "../../utils/selector";
 
-const ChatWindow = ({ sendMessage, onToggleDetail, isDetailsOpen }) => {
+const ChatWindow = ({
+  hideBackButton,
+  onHide,
+  sendMessage,
+  onToggleDetail,
+  isDetailsOpen,
+}) => {
   const messages = useSelector(selectMessagesWithUsers);
 
   const [currentMessage, setCurrentMessage] = useState("");
   return (
     <div className="w-full h-full bg-light-surface flex flex-col rounded-2xl">
       {/* Header */}
+      {!hideBackButton && (
+        <button
+          className="cursor-pointer mb-4 px-4 py-2 bg-light-primary-container text-light-on-primary-container rounded-lg"
+          onClick={onHide}
+        >
+          Hide
+        </button>
+      )}
       <div className="p-4 border-b border-light-outline flex">
         {/* Avatar */}
         <div className="w-10 h-10 rounded-full bg-gray-400 flex-shrink-0">

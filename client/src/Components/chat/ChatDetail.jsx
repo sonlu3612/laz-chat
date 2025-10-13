@@ -3,7 +3,7 @@ const ChatDetail = ({ onHide, hideBackButton = false }) => {
     <div>
       {!hideBackButton && (
         <button
-          className="mb-4 px-4 py-2 bg-light-primary-container text-light-on-primary-container rounded-lg"
+          className="cursor-pointer mb-4 px-4 py-2 bg-light-primary-container text-light-on-primary-container rounded-lg"
           onClick={onHide}
         >
           Hide
