@@ -51,5 +51,13 @@ namespace server.Services.Users
             user.PasswordHash = passwordHasher.HashPassword(user, newPassword);
             return await _context.SaveChangesAsync() > 0;
         }
+        public async Task<IEnumerable<Device>> GetDeviceAsync(int userId)
+        {
+            var devices = await _context.Devices
+                .Where(d => d.UserId == userId)
+                .ToListAsync()
+                      ?? throw new KeyNotFoundException("No devices found for this user");
+            return devices;
+        }
     }
 }

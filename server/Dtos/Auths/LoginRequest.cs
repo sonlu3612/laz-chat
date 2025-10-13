@@ -10,4 +10,10 @@ public class LoginRequest
 
     [Required(ErrorMessage = "Password is required.")]
     public string Password { get; set; } = string.Empty;
+    
+    [Required(ErrorMessage = "Device id is required.")]
+    public string DeviceId { get; set; } = string.Empty;
+    
+    [Required(ErrorMessage = "Device name is required.")]
+    public string DeviceName { get; set; } = string.Empty;
 }

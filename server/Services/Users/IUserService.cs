@@ -10,5 +10,6 @@ namespace server.Services.Users
         Task<AppUser> GetUserByUsernameAsync(string username);
         Task<IEnumerable<AppUser>> GetAllUsersAsync();
         Task<bool> ChangePasswordAsync(int userId, string newPassword);
+        Task<IEnumerable<Device>> GetDeviceAsync(int userId);
     }
 }

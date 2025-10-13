@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using server.Data;
@@ -11,9 +12,11 @@ using server.Data;
 namespace server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250829010813_AddDeviceEntity")]
+    partial class AddDeviceEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,50 +319,25 @@ namespace server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DeviceId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnName("device_id");
-
-                    b.Property<string>("DeviceName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnName("device_name");
-
-                    b.Property<string>("IpAddress")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
-                        .HasColumnName("ip_address");
-
-                    b.Property<string>("RefreshToken")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("character varying(512)")
-                        .HasColumnName("refresh_token");
-
-                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("refresh_token_expiry_time");
+                        .HasColumnName("created_at");
 
-                    b.Property<string>("UserAgent")
+                    b.Property<string>("DeviceToken")
                         .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("character varying(512)")
-                        .HasColumnName("user_agent");
+                        .HasColumnType("text")
+                        .HasColumnName("device_token");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer")
-                        .HasColumnName("user_id");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("type");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RefreshToken");
-
-                    b.HasIndex("UserId", "DeviceId")
-                        .IsUnique();
 
                     b.ToTable("devices", (string)null);
                 });
@@ -509,17 +487,6 @@ namespace server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("server.Domain.Device", b =>
-                {
-                    b.HasOne("server.Domain.AppUser", "User")
-                        .WithMany("Devices")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("server.Domain.Message", b =>
                 {
                     b.HasOne("server.Domain.Channel", "Channel")
@@ -556,11 +523,6 @@ namespace server.Migrations
                     b.Navigation("Channel");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("server.Domain.AppUser", b =>
-                {
-                    b.Navigation("Devices");
                 });
 #pragma warning restore 612, 618
         }

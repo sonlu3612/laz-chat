@@ -16,6 +16,7 @@ namespace server.Data
         public DbSet<UserConnection> UserConnections { get; set; }
         public DbSet<Channel> Channels { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Device> Devices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -115,7 +116,56 @@ namespace server.Data
                     .HasForeignKey(m => m.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
-                
+
+            builder.Entity<Device>(entity =>
+            {
+                entity.ToTable("devices");
+
+                entity.HasKey(d => d.Id);
+
+                entity.Property(d => d.Id)
+                    .HasColumnName("id");
+
+                entity.Property(d => d.UserId)
+                    .HasColumnName("user_id")
+                    .IsRequired();
+
+                entity.Property(d => d.DeviceId)
+                    .HasColumnName("device_id")
+                    .HasMaxLength(128)
+                    .IsRequired();
+
+                entity.Property(d => d.DeviceName)
+                    .HasColumnName("device_name")
+                    .HasMaxLength(256);
+
+                entity.Property(d => d.RefreshToken)
+                    .HasColumnName("refresh_token")
+                    .HasMaxLength(512);
+
+                entity.Property(d => d.RefreshTokenExpiryTime)
+                    .HasColumnName("refresh_token_expiry_time");
+
+                entity.Property(d => d.IpAddress)
+                    .HasColumnName("ip_address")
+                    .HasMaxLength(64);
+
+                entity.Property(d => d.UserAgent)
+                    .HasColumnName("user_agent")
+                    .HasMaxLength(512);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(u => u.Devices)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(d => new { d.UserId, d.DeviceId })
+                    .IsUnique();
+
+                entity.HasIndex(d => d.RefreshToken)
+                    .IsUnique(false);
+            });
+
         }
     }
 }

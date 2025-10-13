@@ -12,19 +12,16 @@ using server.Services.Channels;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//DotNetEnv.Env.Load();
+DotNetEnv.Env.Load();
 
-//string connectionString = $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" +
-//                          $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
-//                          $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
-//                          $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
-
-//builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//        options.UseNpgsql(connectionString));
+var connectionString = DbContextHelper.GetConnectionString();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(connectionString));
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
