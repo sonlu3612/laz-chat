@@ -32,4 +32,14 @@ public class ChatHub : Hub
     {
         await Clients.Group(channelId).SendAsync("UserTyping", userName);
     }
-}
+
+    public async Task UpdateMessage(string channelId, string messageId, string newContent)
+    {
+        await Clients.Group(channelId).SendAsync("MessageUpdated", messageId, newContent);
+    }
+
+    public async Task DeleteMessage(string channelId, string messageId)
+    {
+        await Clients.Group(channelId).SendAsync("MessageDeleted", messageId);
+    }
+} 
