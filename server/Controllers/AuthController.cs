@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using server.Dtos.Auths;
 using server.Services.Auth;
 

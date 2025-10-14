@@ -17,6 +17,7 @@ namespace server.Data
         public DbSet<Channel> Channels { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Device> Devices { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -88,26 +89,6 @@ namespace server.Data
                 entity.Property(m => m.SentAt).HasColumnName("sent_at");
                 entity.Property(m => m.EditedAt).HasColumnName("edited_at");
                 entity.HasOne(m => m.Channel)
-                      .WithMany()
-                      .HasForeignKey(m => m.ChannelId)
-                      .OnDelete(DeleteBehavior.Cascade);
-                entity.HasOne(m => m.User)
-                      .WithMany()
-                      .HasForeignKey(m => m.UserId)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            builder.Entity<Message>(entity =>
-            {
-                entity.ToTable("messages");
-                entity.HasKey(m => m.Id);
-                entity.Property(m => m.Id).HasColumnName("id");
-                entity.Property(m => m.ChannelId).HasColumnName("channel_id");
-                entity.Property(m => m.UserId).HasColumnName("user_id");
-                entity.Property(m => m.Content).HasColumnName("content");
-                entity.Property(m => m.SentAt).HasColumnName("sent_at");
-                entity.Property(m => m.EditedAt).HasColumnName("edited_at");
-                entity.HasOne(m => m.Channel)
                     .WithMany()
                     .HasForeignKey(m => m.ChannelId)
                     .OnDelete(DeleteBehavior.Cascade);
@@ -164,6 +145,29 @@ namespace server.Data
 
                 entity.HasIndex(d => d.RefreshToken)
                     .IsUnique(false);
+            });
+
+            builder.Entity<Profile>(entity =>
+            {
+                entity.ToTable("profiles");
+                entity.HasKey(p => p.Id);
+
+                entity.Property(p => p.Id).HasColumnName("id");
+                entity.Property(p => p.FullName).HasColumnName("full_name");
+                entity.Property(p => p.Bio).HasColumnName("bio");
+                entity.Property(p => p.AvatarUrl).HasColumnName("avatar_url");
+                entity.Property(p => p.Email).HasColumnName("email");
+                entity.Property(p => p.PhoneNumber).HasColumnName("phone_number");
+                entity.Property(p => p.BirthDay).HasColumnName("birthday");
+                entity.Property(p => p.Gender).HasColumnName("gender");
+                entity.Property(p => p.UserId).HasColumnName("user_id");
+                entity.Property(p => p.CreatedAt).HasColumnName("created_at");
+                entity.Property(p => p.UpdatedAt).HasColumnName("updated_at");
+
+                entity.HasOne(p => p.User)
+                    .WithOne() 
+                    .HasForeignKey<Profile>(p => p.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
         }
