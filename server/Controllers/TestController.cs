@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace server.Controllers
@@ -15,7 +16,7 @@ namespace server.Controllers
         }
 
         // Endpoint yêu cầu xác thực
-        [Authorize] // <-- Middleware xác thực
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] // <-- Middleware xác thực
         [HttpGet("secure")]
         public IActionResult SecureEndpoint()
         {
